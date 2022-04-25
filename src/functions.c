@@ -8,11 +8,16 @@ void init(char tab[TABSIZE][TABSIZE], char a){ // initialize all the table's cel
     }
 }
 
-void move(char tab[TABSIZE][TABSIZE], int ligne){ // move the lines of the game table when one is completed
-    for(int i=0; i<ligne; i++){
+void move(char tab[TABSIZE][TABSIZE], char color[TABSIZE][TABSIZE], int ligne){ // move the lines of the game table when one is completed
+    for(int i=ligne; i<TABSIZE-1; i++){
         for(int j=0; j<TABSIZE; j++){
             tab[i][j] = tab[i+1][j];
+            color[i][j] = color[i+1][j];
         }
+    }
+    for(int i=0; i<TABSIZE; i++){
+        tab[TABSIZE][i] = ' ';
+        color[TABSIZE][i] = 0;
     }
 }
 
@@ -49,6 +54,3 @@ void cpy1(int *tab1[], int *tab2[], int size){
         tab2[i] = tab1[i];
     }
 }
-
-
-//*(*(pieces[type_de_piece]+orientation)+nunlero_case)

@@ -45,7 +45,7 @@ int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int
 
     */
 
-    cpy(tabI1, I1, CTE16);
+    cpy(tabI1, I1, CTE16); //puts I1 to tabI1
     cpy(tabI2, I2, CTE16);
     cpy(tabO1, O1, CTE16);
     cpy(tabT1, T1, CTE16);
@@ -74,7 +74,7 @@ int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int
     int *tabZ[CTE4] = {Z1, Z2, Z1, Z2};
     int *tabS[CTE4] = {S1, S2, S1, S2};
 
-    cpy1(tabI, I, CTE4);
+    cpy1(tabI, I, CTE4); //puts I to tabI
     cpy1(tabO, O, CTE4);
     cpy1(tabT, T, CTE4);
     cpy1(tabL, L, CTE4);

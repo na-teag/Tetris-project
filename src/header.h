@@ -14,11 +14,11 @@
 
 
 
-void disptab(char mytab[TABSIZE][TABSIZE]);
+void disptab(char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], char color[], int **pieces[], int new_piece, int futur_piece, int new_orientation, int futur_orientation);
 void skip_lines(int a);
 unsigned long getTimeMicroSec();
 void init(char mytab[TABSIZE][TABSIZE], char a);
-void move(char mytab[TABSIZE][TABSIZE], int ligne);
+void move(char tab[TABSIZE][TABSIZE], char color[TABSIZE][TABSIZE], int ligne);
 char* add(char tab[], char tab2[]);
 int*** getpieces();
 void cpy(int tab1[], int tab2[], int size);

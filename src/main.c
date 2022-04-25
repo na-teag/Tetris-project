@@ -17,7 +17,9 @@ int main(){
     int gameover = 0;
     int answer = 0;
     int new_piece = 0;
+    int new_orientation = 0;
     int futur_piece = 0;
+    int futur_orientation = 0;
 
     //this part go with "tetriminos.c"
     int I1[CTE16], I2[CTE16], O1[CTE16], T1[CTE16], T2[CTE16], T3[CTE16], T4[CTE16], L1[CTE16], L2[CTE16], L3[CTE16], L4[CTE16], J1[CTE16], J2[CTE16], J3[CTE16], J4[CTE16], Z1[CTE16], Z2[CTE16], S1[CTE16], S2[CTE16];
@@ -27,6 +29,7 @@ int main(){
 
     char mytab[TABSIZE][TABSIZE];
     char mytab_color[TABSIZE][TABSIZE];
+    char answer_txt[200];
     char color[] = {36, 33, 35, 30, 34 ,31, 32};//color of the pieces according to wikipedia. see "color.h"
 
     init(mytab, ' ');
@@ -44,19 +47,22 @@ int main(){
     /* --------------------------------- DEBUT DU JEU --------------------------------- */
 
 
-    printf("Quelle est la couleur du fond d'ecran de votre terminal ?\n1 - Blanc\n2 - Noir\nEntrez 1 ou 2 :");
-    do{
-        scanf("%d", &answer);
-    }while(answer!=1 && answer!=2);
-    if(answer == 2){
+    printf("Quelle est la couleur du fond d'ecran de votre terminal ? \n1 - Blanc \n2 - Noir \nEntrez 1 ou 2 : ");
+    scanf("%s", answer_txt);
+    while(!(answer_txt[0] == '1' || answer_txt[0] == '2')){
+        printf("\nVeuillez entrer uniquement 1 ou 2 comme reponse. \n\nQuelle est la couleur du fond d'ecran de votre terminal ? \n1 - Blanc \n2 - Noir \nEntrez 1 ou 2 : ");
+        scanf("%s", answer_txt);
+    }
+    if(answer_txt[0] == '2'){
         color[4] =  37;
     }
-
+    
     new_piece = rand()%7;
     futur_piece = rand()%7;
-
-    disptab(mytab, new_piece, futur_piece);
-
+    new_orientation = rand()%4;
+    futur_orientation = rand()%4;
+    disptab(mytab, mytab_color, color, &pieces, new_piece, futur_piece, new_orientation, futur_orientation);
+    
     
 
 
