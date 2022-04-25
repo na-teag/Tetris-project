@@ -13,6 +13,7 @@ int main(){
 
     int end = 0;
     int gameover = 0;
+    int answer = 0;
 
     //this part go with "tetriminos.c"
     int I1[CTE16], I2[CTE16], O1[CTE16], T1[CTE16], T2[CTE16], T3[CTE16], T4[CTE16], L1[CTE16], L2[CTE16], L3[CTE16], L4[CTE16], J1[CTE16], J2[CTE16], J3[CTE16], J4[CTE16], Z1[CTE16], Z2[CTE16], S1[CTE16], S2[CTE16];
@@ -22,6 +23,7 @@ int main(){
 
     char mytab[TABSIZE][TABSIZE];
     char mytab_color[TABSIZE][TABSIZE];
+    char color[] = {36, 33, 35, 30, 34 ,31, 32};//color of the pieces according to wikipedia. see "color.h"
 
     init(mytab, ' ');
     init(mytab_color, 48); // 48 = '0' (reset color)
@@ -34,15 +36,21 @@ int main(){
     skip_lines(50);
     printf("%s", tetris);
     skip_lines(5);
-
+    
     /* --------------------------------- DEBUT DU JEU --------------------------------- */
+
+
+    printf("Quelle est la couleur du fond d'ecran de votre terminal ?\n1 - Blanc\n2 - Noir\nEntrez 1 ou 2 :");
+    do{
+        scanf("%d", &answer);
+    }while(answer!=1 && answer!=2);
+    if(answer == 2){
+        color[4] =  37;
+    }
 
     disptab(mytab);
 
-    couleur("40;37");
-    printf("texte");
-    couleur("0");
-    printf("texte");
+    
 
 
     /* --------------------------------- BOUCLE DE JEU --------------------------------- */

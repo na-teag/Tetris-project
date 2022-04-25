@@ -50,4 +50,5 @@ void cpy1(int *tab1[], int *tab2[], int size){
     }
 }
 
+
 //*(*(pieces[type_de_piece]+orientation)+nunlero_case)
