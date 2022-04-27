@@ -95,6 +95,7 @@ int changecolor(int color){
 int horizontalsize(int new_piece, int orientation, int **pieces[]){// calcul of the horizontal size of a piece
     int nbr = 0;
     int nbr2 = 0;
+    orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
     for(int i=0; i<CTE4; i++){
         nbr = 0;
         for(int j=0; j<CTE4; j++){
@@ -105,4 +106,8 @@ int horizontalsize(int new_piece, int orientation, int **pieces[]){// calcul of 
         }
     }
     return nbr2;
+}
+
+void update_tab(int **pieces[CTE7],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int new_piece, int new_orientation){
+
 }

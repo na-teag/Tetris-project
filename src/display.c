@@ -18,8 +18,8 @@ void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE], ch
     printf(" A B C D E F G H I J\n");
 }
 
-void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *line){
-    int orientation = 0;
+void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orientation){
+    *orientation = 0;
     int answer1 = 0;
     int test = 0;
     char answer_txt[CTE200];
@@ -72,7 +72,7 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *line)
     }
 
 
-    //this part ask the player to chose a possibilty
+    //this part ask the player to chose an orientation
     if(new_piece != 1){
         scanf("%s", answer_txt);
         while(!(answer_txt[0] == '1' || answer_txt[0] == '2' || answer_txt[0] == '3' || answer_txt[0] == '4')){
@@ -80,11 +80,11 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *line)
             scanf("%s", answer_txt);
         }
         answer2 = answer_txt[0];
-        orientation = answer2 - 48;// 48 = '1'
+        *orientation = answer2 - 48;// 48 = '1'
     }else{
-        orientation = 0; // if the piece is a square, the four recorded orientations are the same, the number doesn't matter (it still need to be 1 2 3 or 4, of course)
+        *orientation = 0; // if the piece is a square, the four recorded orientations are the same, the number doesn't matter (it still need to be 1 2 3 or 4, of course)
     }
-    printf("%d", orientation);
+    printf("%d", *orientation);
 
 
 
@@ -107,12 +107,12 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *line)
         }else{
             answer1 = answer1 - 65;// 65 = 'A'
         }
-        if(horizontalsize(new_piece, orientation, pieces) + answer1 <= CTE10){// the column number + the size of the piece musn't be higher than the size of the table
+        if(horizontalsize(new_piece, *orientation, pieces) + answer1 <= CTE10){// the column number + the size of the piece musn't be higher than the size of the table
             test = 1;
         }else{
             test = 0;
         }
-        printf("%d + %d", horizontalsize(new_piece, orientation, pieces), answer1);
+        //printf("%d + %d", horizontalsize(new_piece, *orientation, pieces), answer1);
     }
 }
 
