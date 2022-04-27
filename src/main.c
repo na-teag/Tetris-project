@@ -24,6 +24,8 @@ int main(){
     int futur_piece = 0;
     int futur_orientation = 0;
     int test = 0;
+    int column = 0;
+    int line = 0;
 
         //this part is for the "tetriminos.c" file
     int I1[CTE16], I2[CTE16], O1[CTE16], T1[CTE16], T2[CTE16], T3[CTE16], T4[CTE16], L1[CTE16], L2[CTE16], L3[CTE16], L4[CTE16], J1[CTE16], J2[CTE16], J3[CTE16], J4[CTE16], Z1[CTE16], Z2[CTE16], S1[CTE16], S2[CTE16];
@@ -61,9 +63,11 @@ int main(){
         color[4] =  37;
     }
     
-    new_piece = rand()%7;
+    new_piece = 3;//rand()%7;
     futur_piece = rand()%7;
-    disptab(mytab, mytab_color, color, pieces, new_piece, futur_piece);
+    disptab(mytab, mytab_color, color);
+    ask(pieces, new_piece, futur_piece, &column, &line);
+    //put
     
     
 

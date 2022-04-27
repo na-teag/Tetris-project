@@ -37,6 +37,8 @@ int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int
     0 0 0 0
     1 1 1 1
 
+    note : the order of the piece is the same that the one of wikipedia's table (https://fr.wikipedia.org/wiki/tetris#Pièces_du_jeu)
+
     The tables are declared again (even if there is alredy tables in parameters) to don't have to fill them cell by cell, like this :
     tab1[0] = a;
     tab1[1] = b

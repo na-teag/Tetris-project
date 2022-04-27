@@ -91,3 +91,18 @@ int changecolor(int color){
     }
     return 0;
 }
+
+int horizontalsize(int new_piece, int orientation, int **pieces[]){// calcul of the horizontal size of a piece
+    int nbr = 0;
+    int nbr2 = 0;
+    for(int i=0; i<CTE4; i++){
+        nbr = 0;
+        for(int j=0; j<CTE4; j++){
+            nbr += *(*(pieces[new_piece]+orientation)+(4*j)+i);// check each column, to see if they contain something
+        }
+        if(nbr != 0){
+            nbr2++;
+        }
+    }
+    return nbr2;
+}
