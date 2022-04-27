@@ -54,3 +54,40 @@ void cpy1(int *tab1[], int *tab2[], int size){
         tab2[i] = tab1[i];
     }
 }
+
+
+int changecolor(int color){
+    if(color == 30){
+        couleur("30");
+        return 0;
+    }
+    if(color == 31){
+        couleur("31");
+        return 0;
+    }
+    if(color == 32){
+        couleur("32");
+        return 0;
+    }
+    if(color == 33){
+        couleur("33");
+        return 0;
+    }
+    if(color == 34){
+        couleur("34");
+        return 0;
+    }
+    if(color == 35){
+        couleur("35");
+        return 0;
+    }
+    if(color == 36){
+        couleur("36");
+        return 0;
+    }
+    if(color == 37){
+        couleur("37");
+        return 0;
+    }
+    return 0;
+}

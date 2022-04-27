@@ -8,13 +8,15 @@
 #include <sys/time.h>
 #include "color.h"
 #define TABSIZE 10
+#define CTE2 2
 #define CTE4 4
 #define CTE7 7
 #define CTE16 16
+#define CTE200 200
 
 
 
-void disptab(char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], char color[], int **pieces[], int new_piece, int futur_piece, int new_orientation, int futur_orientation);
+void disptab(char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], char color[], int **pieces[], int new_piece, int futur_piece);
 void skip_lines(int a);
 unsigned long getTimeMicroSec();
 void init(char mytab[TABSIZE][TABSIZE], char a);
@@ -23,3 +25,4 @@ char* add(char tab[], char tab2[]);
 int*** getpieces();
 void cpy(int tab1[], int tab2[], int size);
 void cpy1(int *tab1[], int *tab2[], int size);
+int changecolor(int color);

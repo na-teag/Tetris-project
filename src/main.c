@@ -1,6 +1,7 @@
 #include "header.h"
 
 int main(){
+    //file part
     FILE* datafile = NULL;
     char filename[] = {"datas.txt"};
     char path[] = {"../src/"};              //the file's name and the path are separated to use the file's name if there is an error
@@ -11,6 +12,8 @@ int main(){
         exit(1);
     }
 
+    //declaration part
+
     srand(time(NULL));
 
     int end = 0;
@@ -20,8 +23,9 @@ int main(){
     int new_orientation = 0;
     int futur_piece = 0;
     int futur_orientation = 0;
+    int test = 0;
 
-    //this part go with "tetriminos.c"
+        //this part is for the "tetriminos.c" file
     int I1[CTE16], I2[CTE16], O1[CTE16], T1[CTE16], T2[CTE16], T3[CTE16], T4[CTE16], L1[CTE16], L2[CTE16], L3[CTE16], L4[CTE16], J1[CTE16], J2[CTE16], J3[CTE16], J4[CTE16], Z1[CTE16], Z2[CTE16], S1[CTE16], S2[CTE16];
     int *I[CTE4], *O[CTE4], *T[CTE4], *L[CTE4], *J[CTE4], *Z[CTE4], *S[CTE4];
     int **pieces[CTE7];
@@ -29,8 +33,8 @@ int main(){
 
     char mytab[TABSIZE][TABSIZE];
     char mytab_color[TABSIZE][TABSIZE];
-    char answer_txt[200];
-    char color[] = {36, 33, 35, 30, 34 ,31, 32};//color of the pieces according to wikipedia. see "color.h"
+    char answer_txt[CTE200];
+    char color[] = {36, 33, 35, 30, 34 ,31, 32};//color of the pieces. see "color.h"
 
     init(mytab, ' ');
     init(mytab_color, 48); // 48 = '0' (reset color)
@@ -59,9 +63,7 @@ int main(){
     
     new_piece = rand()%7;
     futur_piece = rand()%7;
-    new_orientation = rand()%4;
-    futur_orientation = rand()%4;
-    disptab(mytab, mytab_color, color, &pieces, new_piece, futur_piece, new_orientation, futur_orientation);
+    disptab(mytab, mytab_color, color, pieces, new_piece, futur_piece);
     
     
 
@@ -70,6 +72,20 @@ int main(){
 
     while(end == 0){
         while(gameover == 0){
+
+            for(int i=0; i<TABSIZE; i++){// this loop check if one line is full
+                test = 1;
+                for(int j=0; j<TABSIZE; j++){
+                    if(mytab[i][j] == ' '){
+                        test = 0;
+                        break;
+                    }
+                }
+                if(test == 1){
+                    move(mytab, mytab_color, i);// this function delete the line completed
+                }
+            }
+
             gameover = 1;
         }
         end =1;
