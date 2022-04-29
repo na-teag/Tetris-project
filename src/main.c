@@ -61,6 +61,9 @@ int main(){
         color[4] =  37;
     }
     
+
+    //implementation des fonctions nécéssaires pour un tour de jeu et
+    //test de celles-ci avant de les mettre dans une boucle
     new_piece = 3;//rand()%7;
     futur_piece = rand()%7;
     disptab(mytab, mytab_color, color);

@@ -110,4 +110,8 @@ int horizontalsize(int new_piece, int orientation, int **pieces[]){// calcul of 
 
 void update_tab(int **pieces[CTE7],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int new_piece, int new_orientation){
 
+
+    if(){//une ligne est complete
+        move();//decaler les lignes
+    }
 }
