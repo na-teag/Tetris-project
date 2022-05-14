@@ -31,20 +31,18 @@ int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int
     They are positionned to be at the bottom and the left of the table.
     
     Exemple :
-    The first one {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1} represent the horizontal line :
+    The first one {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1} represents the horizontals lines :
     0 0 0 0
     0 0 0 0
     0 0 0 0
     1 1 1 1
-
     note : the order of the piece is the same that the one of wikipedia's table (https://fr.wikipedia.org/wiki/tetris#Pièces_du_jeu)
-
+    
     The tables are declared again (even if there is alredy tables in parameters) to don't have to fill them cell by cell, like this :
     tab1[0] = a;
     tab1[1] = b
     ...
     tab10[5] = zza...
-
     */
 
     cpy(tabI1, I1, CTE16); //puts I1 to tabI1

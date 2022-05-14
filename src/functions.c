@@ -108,10 +108,52 @@ int horizontalsize(int new_piece, int orientation, int **pieces[]){// calcul of 
     return nbr2;
 }
 
-void update_tab(int **pieces[CTE7],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int new_piece, int new_orientation){
-
-
-    if(){//une ligne est complete
-        move();//decaler les lignes
+int verticalsize(int new_piece, int orientation, int **pieces[]){// calcul of the horizontal size of a piece
+    int nbr = 0;
+    orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
+    while(nbr<CTE16 && *(*(pieces[new_piece]+orientation)+nbr) == 0){
+        nbr++;
     }
+    //printf("nbr=%d ", nbr);
+    nbr = 4-(nbr/4);
+    return nbr;
 }
+
+void update_tab(int pieces[CTE16],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int column){
+    int tabvide[CTE4];
+    //int piecesize[CTE4] = verticalsize(piece);
+    int height = 0;
+    int test = 0;
+
+    for(int i=0; i<CTE4; i++){
+        for(int j=0; j<CTE4; j++){
+            if(pieces[(4*i)+j] == 1){
+                mytab[i][j] == '@';
+            }
+        }
+    }
+
+    /*
+    for(column; column<column+horizontalsize(new_piece, new_orientation, pieces); column++){
+        for(int i=10; i>0 || test = 0 ; i--){
+            if(mytab[column][i]=='@'){
+                tabvide[column]=i;
+                test=1;
+            }
+        }
+    }
+    for(int i=0; i<CTE4; i++){
+        tabvide[i] = tabvide[i]+piecesize[i];
+    }
+    height = tabvide[0];
+    for(int i=0; i<CTE3; i++){
+        if(tabvide[i]<tabvide[i+1]){
+            height = tabvide[i+1]
+        }
+    }
+    mytab[column][height]='@';*/
+   
+    //if(){//une ligne est complete
+        //move();//decaler les lignes
+    //}
+}//pieces[(4*line)+column];

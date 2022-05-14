@@ -9,6 +9,7 @@
 #include "color.h"
 #define TABSIZE 10
 #define CTE2 2
+#define CTE3 3
 #define CTE4 4
 #define CTE7 7
 #define CTE10 10
@@ -29,4 +30,5 @@ void cpy(int tab1[], int tab2[], int size);
 void cpy1(int *tab1[], int *tab2[], int size);
 int changecolor(int color);
 int horizontalsize(int new_piece, int orientation, int **piece[]);
-void update_tab(int **pieces[CTE7],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int new_piece, int new_orientation);
+int verticalsize(int new_piece, int orientation, int **pieces[]);
+void update_tab(int pieces[CTE16],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int column);

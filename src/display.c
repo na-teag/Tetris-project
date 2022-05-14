@@ -114,6 +114,7 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
         }
         //printf("%d + %d", horizontalsize(new_piece, *orientation, pieces), answer1);
     }
+    column=answer1;
 }
 
 void skip_lines(int a){
@@ -121,4 +122,3 @@ void skip_lines(int a){
         printf("\n");
     }
 }
-

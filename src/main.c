@@ -68,9 +68,15 @@ int main(){
     futur_piece = rand()%7;
     disptab(mytab, mytab_color, color);
     ask(pieces, new_piece, futur_piece, &column, &new_orientation);
-    update_tab(pieces, mytab, mytab_color, new_piece, new_orientation);
-    // ecrire la fonction update_tab
+    update_tab(*(pieces[new_piece]+new_orientation), mytab, mytab_color, column);
+    //*(*(pieces[new_piece]+orientation)+(4*line)+column)
+    disptab(mytab, mytab_color, color);
     
+    // ecrire la fonction update_tab
+    int i,j;
+    scanf("%d", &i);
+    scanf("%d", &j);
+    printf("\n%d",verticalsize(i, j, pieces));
 
 
     /* --------------------------------- BOUCLE DE JEU --------------------------------- */
