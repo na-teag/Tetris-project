@@ -2,18 +2,18 @@
 
 
 
-void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE], char color[]){
+void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE]){
     skip_lines(40);
     printf("Voici votre grille :\n\n");
     printf("\t A B C D E F G H I J\n\t");
-    for(int i=0; i<TABSIZE; i++){
+    for(int i=TABSIZE-1; i>=0; i--){ // the (0;0) cell is at the left corner of the bottom
         for(int j=0; j<TABSIZE; j++){
             printf("|");
             changecolor(mytab_color[i][j]);//change the color of piece 
             printf("%c", mytab[i][j]);
             couleur("0");//reset color
         }
-        printf("|\n\t");
+        printf("|i=%d\n\t", i);
     }
     printf(" A B C D E F G H I J\n");
 }
@@ -32,11 +32,11 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
     }else if(new_piece == 0 || new_piece == 5 || new_piece == 6){
         printf("\nChoisissez l'orientation de la piece :\n1        \t2\n");
     }else{
-        printf("\nVoici la piece :\n");
+        printf("\nVoici la piece : \n");
     }
 
     //this part print the differents possiblities of the orientation 
-    for(int i=0; i<CTE4; i++){
+    for(int i=CTE4-1; i>=0; i--){
         if(new_piece == 2 || new_piece == 3 || new_piece == 4){
             for(int j=0; j<CTE4; j++){
                 for(int k=0; k<CTE4; k++){
@@ -85,6 +85,7 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
         *orientation = 0; // if the piece is a square, the four recorded orientations are the same, the number doesn't matter (it still need to be 1 2 3 or 4, of course)
     }
     printf("%d", *orientation);
+    //*orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
 
 
 
@@ -114,7 +115,7 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
         }
         //printf("%d + %d", horizontalsize(new_piece, *orientation, pieces), answer1);
     }
-    column=answer1;
+    *column=answer1;
 }
 
 void skip_lines(int a){

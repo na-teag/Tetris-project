@@ -18,7 +18,7 @@
 
 
 
-void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE], char color[]);
+void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE]);
 void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *line);
 void skip_lines(int a);
 unsigned long getTimeMicroSec();
@@ -30,5 +30,5 @@ void cpy(int tab1[], int tab2[], int size);
 void cpy1(int *tab1[], int *tab2[], int size);
 int changecolor(int color);
 int horizontalsize(int new_piece, int orientation, int **piece[]);
-int verticalsize(int new_piece, int orientation, int **pieces[]);
-void update_tab(int pieces[CTE16],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int column);
+int verticalsize(int new_piece, int new_orientation, int **pieces[]);
+void update_tab(int **pieces[CTE16],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int column, int new_orientation, int new_piece);

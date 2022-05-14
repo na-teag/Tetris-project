@@ -34,7 +34,7 @@ int main(){
     char mytab[TABSIZE][TABSIZE];
     char mytab_color[TABSIZE][TABSIZE];
     char answer_txt[CTE200];
-    char color[] = {36, 33, 35, 30, 34 ,31, 32};//color of the pieces. see "color.h"
+    int color[CTE7] = {36, 33, 35, 30, 34 ,31, 32};//color of the pieces. see "color.h"
 
     init(mytab, ' ');
     init(mytab_color, 48); // 48 = '0' (reset color)
@@ -66,17 +66,19 @@ int main(){
     //test de celles-ci avant de les mettre dans une boucle
     new_piece = 3;//rand()%7;
     futur_piece = rand()%7;
-    disptab(mytab, mytab_color, color);
+    disptab(mytab, mytab_color);
     ask(pieces, new_piece, futur_piece, &column, &new_orientation);
-    update_tab(*(pieces[new_piece]+new_orientation), mytab, mytab_color, column);
+    update_tab(pieces, mytab, mytab_color, column, new_orientation, new_piece);
     //*(*(pieces[new_piece]+orientation)+(4*line)+column)
-    disptab(mytab, mytab_color, color);
+    disptab(mytab, mytab_color);
+    
     
     // ecrire la fonction update_tab
     int i,j;
+    /*
     scanf("%d", &i);
     scanf("%d", &j);
-    printf("\n%d",verticalsize(i, j, pieces));
+    printf("\n%d",verticalsize(i, j, pieces));*/
 
 
     /* --------------------------------- BOUCLE DE JEU --------------------------------- */
