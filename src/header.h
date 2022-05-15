@@ -30,5 +30,5 @@ void cpy(int tab1[], int tab2[], int size);
 void cpy1(int *tab1[], int *tab2[], int size);
 int changecolor(int color);
 int horizontalsize(int new_piece, int orientation, int **piece[]);
-int verticalsize(int new_piece, int new_orientation, int **pieces[]);
-void update_tab(int **pieces[CTE16],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int column, int new_orientation, int new_piece);
+void verticalsize(int new_piece, int new_orientation, int **pieces[], int tab[]);
+void update_tab(int **pieces[CTE16],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int color[CTE7], int column, int new_orientation, int new_piece);

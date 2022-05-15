@@ -56,7 +56,7 @@ void cpy1(int *tab1[], int *tab2[], int size){
 }
 
 
-int changecolor(int color){
+int changecolor(int color){// the couleur function must have a const *char in parameters
     if(color == 30){
         couleur("30");
         return 0;
@@ -95,7 +95,6 @@ int changecolor(int color){
 int horizontalsize(int new_piece, int orientation, int **pieces[]){// calcul of the horizontal size of a piece
     int nbr = 0;
     int nbr2 = 0;
-    orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
     for(int i=0; i<CTE4; i++){
         nbr = 0;
         for(int j=0; j<CTE4; j++){
@@ -108,59 +107,97 @@ int horizontalsize(int new_piece, int orientation, int **pieces[]){// calcul of 
     return nbr2;
 }
 
-int verticalsize(int new_piece, int new_orientation, int **pieces[]){// calcul of the horizontal size of a piece
-    int tab[CTE4];
+void verticalsize(int new_piece, int new_orientation, int **pieces[], int tab[]){// calcul of the nbr of free cell at the bottom of each comlumn
     int nbr = 0;
-    for(int i=0; i<CTE4; i++){
-        nbr = 0;
-        for(int j=0; j<CTE4; j++){
-            nbr += *(*(pieces[new_piece]+new_orientation)+(4*j)+i);
+    for(int i=0; i<horizontalsize(new_piece, new_orientation, pieces); i++){
+        for(int j=CTE3; (j>=0) && (*(*(pieces[new_piece]+new_orientation)+(4*j)+i) == 0); j--){
+            nbr ++;
         }
         tab[i] = nbr;
-        //printf(".%d", nbr);
+        nbr = 0;
     }
-    return tab;
-}
-
-void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int column, int new_orientation, int new_piece){
-    int size[CTE4] = verticalsize(new_piece, new_orientation, pieces);
-    new_orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
-    //int piecesize[CTE4] = verticalsize(piece);
-    int height = 0;
-    int test = 0;
-    printf("%d", new_orientation);
+    printf("||");
     for(int i=0; i<CTE4; i++){
         for(int j=0; j<CTE4; j++){
-            if(*(*(pieces[new_piece]+new_orientation)+(4*i)+j) == 1){
-                mytab[i][j] = '@';
-            }
+            printf("%d", *(*(pieces[new_piece]+new_orientation)+(4*i)+j));
         }
     }
+    printf("||"); 
+}
 
+int max_verticalsize(int new_piece, int orientation, int **pieces[]){// calcul of the horizontal size of a piece
+    int nbr = 0;
+    //orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
+    while(nbr<CTE16 && *(*(pieces[new_piece]+orientation)+nbr) == 0){
+        nbr++;
+    }
+    //printf("nbr=%d ", nbr);
+    nbr = 4-(nbr/4);
+    return nbr;
+}
 
+void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE],int color[CTE7], int column, int new_orientation, int new_piece){
+    new_orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
+    int piece_size[CTE4] = {0,0,0,0};// the vertical size of each column of the piece (by counting only the occuped cells)
+    verticalsize(new_piece, new_orientation, pieces, piece_size);
+    int horizontal_size = horizontalsize(new_piece, new_orientation, pieces);
+    int size[CTE4] = {0,0,0,0};
+    int height = 0;
+    int test = 0;
+    int k = CTE3;//variable for a loop  
+    int max_vertical_size = max_verticalsize(new_piece, new_orientation, pieces);//the vertical size of the piece
     
-    /*
-    for(column; column<column+horizontalsize(new_piece, new_orientation, pieces); column++){
-        for(int i=10; i>0 || test = 0 ; i--){
-            if(mytab[column][i]=='@'){
-                size[column]=i;
+    
+
+
+    for(int i=0; i<horizontal_size; i++){
+        for(int j=9; (j>=0) && (test == 0); j--){//check if the cells are free ot not, from the top to the bottom
+            if(mytab[j][i+column]=='@'){
+                size[i]=j+1;//as j start at 9, j is equal to the occuped cell, and not the free cell, so we need to do +1
                 test=1;
+                printf("(%d;%d)", i, j);
+            }else if((j==0) && (test == 0)){
+                size[i] = 0;
             }
         }
+        test = 0;
     }
+    skip_lines(1);
     for(int i=0; i<CTE4; i++){
-        size[i] = size[i]+piecesize[i];
+        printf("%d-%d|",size[i], piece_size[i]);
+        size[i] = size[i]-piece_size[i];
     }
-    height = size[0];
-    for(int i=0; i<CTE3; i++){
+    height = size[0];// height must be = to the higher nbr of the table
+    printf("\n|%d",size[0]);
+    for(int i=0; i<horizontal_size-1; i++){
         if(size[i]<size[i+1]){
-            height = size[i+1]
+            height = size[i+1];
         }
+        printf("|%d",size[i+1]);
     }
-    mytab[column][height]='@';*/
+    if(height<0){
+        height = 0;
+    }
+    printf("\nheight=%d,", height);
+    //height = 5;
+    if(height+max_vertical_size<TABSIZE){//if there is still some place in the table
+        for(int i=0; i<horizontal_size; i++){
+            //k=CTE3;
+            for(int j=0; j<CTE4; j++){
+                if(*(*(pieces[new_piece]+new_orientation)+(4*k)+j) == 1){
+                    mytab[i+height][j+column] = '@';
+                    mytab_color[i+height][j+column] = new_piece;
+                }
+            }
+            k--;
+        }
+        printf("(%d)", new_piece);
+        /*
+        if(){//une ligne est complete
+            move();//decaler les lignes
+        }*/
+    }else{
 
-    /*
-    if(){//une ligne est complete
-        move();//decaler les lignes
-    }*/
-}//pieces[(4*line)+column];
+    }
+}
+//pieces[(4*line)+column];

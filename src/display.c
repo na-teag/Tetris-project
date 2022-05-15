@@ -28,7 +28,7 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
     printf("%d", new_piece);
 
     if(new_piece == 2 || new_piece == 3 || new_piece == 4){ // if the piece is the square for exemple, there is no need to choose the orientation
-        printf("\nChoisissez l'orientation de la piece :\n1        \t2        \t3        \t4\n");
+        printf("\nChoisissez l'orientation de la piece : (%d)\n1        \t2        \t3        \t4\n", new_piece);
     }else if(new_piece == 0 || new_piece == 5 || new_piece == 6){
         printf("\nChoisissez l'orientation de la piece :\n1        \t2\n");
     }else{
@@ -36,7 +36,7 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
     }
 
     //this part print the differents possiblities of the orientation 
-    for(int i=CTE4-1; i>=0; i--){
+    for(int i=0; i<CTE4; i++){
         if(new_piece == 2 || new_piece == 3 || new_piece == 4){
             for(int j=0; j<CTE4; j++){
                 for(int k=0; k<CTE4; k++){
@@ -84,8 +84,7 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
     }else{
         *orientation = 0; // if the piece is a square, the four recorded orientations are the same, the number doesn't matter (it still need to be 1 2 3 or 4, of course)
     }
-    printf("%d", *orientation);
-    //*orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
+    printf("or=%d", *orientation);
 
 
 
@@ -108,7 +107,7 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
         }else{
             answer1 = answer1 - 65;// 65 = 'A'
         }
-        if(horizontalsize(new_piece, *orientation, pieces) + answer1 <= CTE10){// the column number + the size of the piece musn't be higher than the size of the table
+        if(horizontalsize(new_piece, *orientation-1, pieces) + answer1 <= CTE10){// the column number + the size of the piece musn't be higher than the size of the table
             test = 1;
         }else{
             test = 0;

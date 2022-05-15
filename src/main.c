@@ -61,14 +61,15 @@ int main(){
         color[4] =  37;
     }
     
-
+    mytab[0][1] = '@';
+    mytab[0][2] = '@';
     //implementation des fonctions nécéssaires pour un tour de jeu et
     //test de celles-ci avant de les mettre dans une boucle
     new_piece = 3;//rand()%7;
     futur_piece = rand()%7;
     disptab(mytab, mytab_color);
     ask(pieces, new_piece, futur_piece, &column, &new_orientation);
-    update_tab(pieces, mytab, mytab_color, column, new_orientation, new_piece);
+    update_tab(pieces, mytab, mytab_color, color, column, new_orientation, new_piece);
     //*(*(pieces[new_piece]+orientation)+(4*line)+column)
     disptab(mytab, mytab_color);
     
