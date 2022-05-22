@@ -18,7 +18,7 @@ void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE]){
     printf(" A B C D E F G H I J\n");
 }
 
-void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orientation){
+int ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orientation){
     *orientation = 0;
     int answer1 = 0;
     int test = 0;
@@ -82,7 +82,7 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
         answer2 = answer_txt[0];
         *orientation = answer2 - 48;// 48 = '1'
     }else{
-        *orientation = 0; // if the piece is a square, the four recorded orientations are the same, the number doesn't matter (it still need to be 1 2 3 or 4, of course)
+        *orientation = 1; // if the piece is a square, the four recorded orientations are the same, the number doesn't matter (it still need to be 1 2 3 or 4, of course)
     }
     printf("or=%d", *orientation);
 
@@ -97,6 +97,9 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
             printf("La piece est trop grande pour pouvoir etre mise dans cette colonne.\nEntrez la colonne dans laquelle vous souhaitez mettre la piece : ");
         }
         scanf("%s", answer_txt);
+        if(answer_txt[0] == 'a' && answer_txt[1] == 'd' && answer_txt[2] == 'm' && answer_txt[3] == 'i' && answer_txt[4] == 'n'){
+            return 0;
+        }
         while(!(answer_txt[0] == 'A' || answer_txt[0] == 'B' || answer_txt[0] == 'C' || answer_txt[0] == 'D' || answer_txt[0] == 'E' || answer_txt[0] == 'F' || answer_txt[0] == 'G' || answer_txt[0] == 'H' || answer_txt[0] == 'I' || answer_txt[0] == 'J' || answer_txt[0] == 'a' || answer_txt[0] == 'b' || answer_txt[0] == 'c' || answer_txt[0] == 'd' || answer_txt[0] == 'e' || answer_txt[0] == 'f' || answer_txt[0] == 'g' || answer_txt[0] == 'h' || answer_txt[0] == 'i' || answer_txt[0] == 'j')){
             printf("\nVeuillez entrer uniquement A, B, C, D, E, F, G, H ou J comme reponse.\nEntrez la colonne dans laquelle vous souhaitez faire tomber la piece : ");
             scanf("%s", answer_txt);
@@ -115,10 +118,100 @@ void ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orien
         //printf("%d + %d", horizontalsize(new_piece, *orientation, pieces), answer1);
     }
     *column=answer1;
+    return 1;
 }
+
+
+
+
+Setting setting(Setting set, int color[TABSIZE]){
+    char answer_txt[CTE200];
+    int done = 0;
+    while(done == 0){
+    skip_lines(5);
+    do{
+        printf("\n\n -- Parametres -- ");
+        printf("\n\n 1 - Modifier la difficulte");
+        if(set.difficulty_progressive == 1){
+            printf("\n 2 - desactiver la difficulte progressive");
+        }else{
+            printf("\n 2 - activer la difficulte progressive");
+        }
+        printf("\n 3 - Changer la langue");
+        printf("\n 4 - Informer d'un changement de couleur d'arriere plan");
+        printf("\n 5 - Retour\n\n");
+        scanf("%s", answer_txt);
+    }while(!(answer_txt[0] == '1' || answer_txt[0] == '2' || answer_txt[0] == '3' || answer_txt[0] == '4' || answer_txt[0] == '5'));
+        
+    
+    switch(answer_txt[0]){
+        case '1':
+            do{
+                printf("\n\nEntrez le niveau de difficulté sur une échelle de 1 a 3 : ");
+                scanf("%s", answer_txt);
+            }while(!(answer_txt[0] == '1' || answer_txt[0] == '2' || answer_txt[0] == '3'));
+            set.difficulty = answer_txt[0]-47;
+            break;
+        case '2':
+            if(set.difficulty_progressive == 1){
+                set.difficulty_progressive = 0;
+            }else{
+                set.difficulty_progressive = 1;
+            }
+            break;
+        case '3':
+            if(set.language == 1){
+                set.language = 2;
+            }else{
+                set.language = 1;
+            }
+            break;
+        case '4':
+            printf("Quelle est la couleur du fond d'ecran de votre terminal ? \n1 - Blanc \n2 - Noir \nEntrez 1 ou 2 : ");
+            scanf("%s", answer_txt);
+            while(!(answer_txt[0] == '1' || answer_txt[0] == '2')){
+                printf("\nVeuillez entrer uniquement 1 ou 2 comme reponse. \n\nQuelle est la couleur du fond d'ecran de votre terminal ? \n1 - Blanc \n2 - Noir \nEntrez 1 ou 2 : ");
+                scanf("%s", answer_txt);
+            }
+            if(answer_txt[0] == '2'){
+                color[4] = 37;
+            }else{
+                color[4] = 34;
+            }
+            break;
+        case '5':
+            done = 1;
+            break;
+        default:
+            exit(1);
+            break;
+    }
+    }
+    return set;
+}
+
+
+
 
 void skip_lines(int a){
     for(int i=0; i<a; i++){
         printf("\n");
     }
+}
+
+void music(){
+    char answer_txt[CTE200];   
+    do{
+        printf("\nQuelle musique souhaitez vous ouvrir dans le navigateur ?\n\n 1 - Musique Tetris original\n 2 - Musique Tetris 99\n 3 - Retour\n\n");
+        scanf("%s", answer_txt);
+    }while(!(answer_txt[0] == '1' || answer_txt[0] == '2' || answer_txt[0] == '3'));
+    if(answer_txt[0] == '1'){
+        system("firefox --new-tab https://www.youtube.com/watch?v=lMJvDi0KNlM &");
+    }else if(answer_txt[0] == '2'){
+        system("firefox --new-tab https://www.youtube.com/watch?v=lMJvDi0KNlM &");
+    }
+}
+
+void tutoriel(){
+
 }

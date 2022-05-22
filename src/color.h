@@ -20,3 +20,7 @@
                noir, rouge, vert, jaune, bleu, magenta, cyan et blanc */
 
 #endif
+
+//printf("\03334m");
+
+//printf("\a");

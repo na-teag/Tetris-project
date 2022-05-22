@@ -1,5 +1,6 @@
 #include "header.h"
 
+
 int main(){
     //file part
     FILE* datafile = NULL;
@@ -17,12 +18,14 @@ int main(){
     srand(time(NULL));
 
     int end = 0;
+    int game = 0;
     int gameover = 0;
     int answer = 0;
     int new_piece = 0;
     int new_orientation = 0;
     int futur_piece = 0;
     int test = 0;
+    int admin = 0;
     int column = 0;
 
         //this part is for the "tetriminos.c" file
@@ -40,13 +43,26 @@ int main(){
     init(mytab_color, 48); // 48 = '0' (reset color)
 
     const char tetris[] =  {"\t _______ _______ _______ ______  _  ______ \n\t(_______|_______|_______|_____ \\| |/ _____)\n\t    _    _____      _    _____) ) ( (____  \n\t   | |  |  ___)    | |  |  __  /| |\\____ \\ \n\t   | |  | |_____   | |  | |  \\ \\| |_____) )\n\t   |_|  |_______)  |_|  |_|   |_|_(______/ \n"};
-    
+    const char endscreen[] = {"\t - GAME OVER - "};
+
+    Setting set;
+    set.language = 1;
+    set.difficulty = 2;
+
+    Player player;
+    player.pseudo[0] = '\0';
+    player.score = 0;
+    player.level = 0;
 
     /* ------------------------ AFFICHAGE DE L'ECRAN D'ACCUEIL ------------------------ */
 
     skip_lines(50);
     printf("%s", tetris);
     skip_lines(5);
+
+    
+
+
     
     /* --------------------------------- DEBUT DU JEU --------------------------------- */
 
@@ -58,20 +74,12 @@ int main(){
         scanf("%s", answer_txt);
     }
     if(answer_txt[0] == '2'){
-        color[4] =  37;
+        color[4] = 37;
     }
     
-    mytab[0][1] = '@';
-    mytab[0][2] = '@';
-    //implementation des fonctions nécéssaires pour un tour de jeu et
-    //test de celles-ci avant de les mettre dans une boucle
-    new_piece = 3;//rand()%7;
-    futur_piece = rand()%7;
-    disptab(mytab, mytab_color);
-    ask(pieces, new_piece, futur_piece, &column, &new_orientation);
-    update_tab(pieces, mytab, mytab_color, color, column, new_orientation, new_piece);
-    //*(*(pieces[new_piece]+orientation)+(4*line)+column)
-    disptab(mytab, mytab_color);
+
+
+
     
     
     // ecrire la fonction update_tab
@@ -85,24 +93,96 @@ int main(){
     /* --------------------------------- BOUCLE DE JEU --------------------------------- */
 
     while(end == 0){
-        while(gameover == 0){
 
-            for(int i=0; i<TABSIZE; i++){// this loop check if one line is full
-                test = 1;
-                for(int j=0; j<TABSIZE; j++){
-                    if(mytab[i][j] == ' '){
-                        test = 0;
-                        break;
-                    }
-                }
-                if(test == 1){
-                    move(mytab, mytab_color, i);// this function delete the line completed
+        char* test = "test";
+
+        game = 0;
+        do{
+            printf("\n\n -- Menu -- ");
+            printf("\n\n 1 - Jouer");
+            printf("\n 2 - Tutoriel");
+            printf("\n 3 - Parametres");
+            printf("\n 4 - Musique");
+            printf("\n 5 - Quitter\n\n");
+            scanf("%s", answer_txt);
+        }while(!(answer_txt[0] == '1' || answer_txt[0] == '2' || answer_txt[0] == '3' || answer_txt[0] == '4' || answer_txt[0] == '5'));
+        
+        switch(answer_txt[0]){
+            case '1':
+                game = 1;
+                break;
+            case '2':
+                tutoriel();
+                break;
+            case '3':
+                set = setting(set, color);
+                break;
+            case '4':
+                music();
+                break;
+            case '5':
+                end = 1;
+                break;
+            default:
+                exit(1);
+                break;
+        }
+        
+        if(game == 1){
+            gameover = 0;
+            player.score = 0;
+            player.level = 0;
+            //printf("test");
+            futur_piece = rand()%7;
+            while(gameover == 0){
+                //printf("%d", game);
+                new_piece = futur_piece;
+                futur_piece = rand()%7;
+                disptab(mytab, mytab_color);
+                admin=ask(pieces, new_piece, futur_piece, &column, &new_orientation);
+                if(admin == 1){
+                 update_tab(pieces, mytab, mytab_color, color, column, new_orientation, new_piece, &player, &gameover);   
                 }
             }
+            init(mytab, ' ');
+            init(mytab_color, 48);
+            skip_lines(40);
+            printf("%s", endscreen);
+            skip_lines(3);
+            printf("Vous avez atteint le niveau %d, et votre score est de : %d points", player.level, player.score);
+            skip_lines(5);
 
-            gameover = 1;
+            if(player.pseudo[0] != '\0'){
+                printf("Voulez vous utiliser le pseudo %s ?\n\n 0 - non\n 1 - oui\n\n", player.pseudo);
+                scanf("%s", answer_txt);
+                while(!(answer_txt[0] == '0' || answer_txt[0] == '1')){
+                    printf("\nVeuillez entrer uniquement 0 ou 1.\nVoulez vous utiliser le pseudo %s ?\n\n 0 - non\n 1 - oui\n\n", player.pseudo);
+                    scanf("%s", answer_txt);
+                }
+                if(answer_txt[0] == '0'){
+                    printf("Veuillez entrer votre pseudo : ");
+                    scanf("%s", answer_txt);
+                    while(strlen(answer_txt) > 15){
+                        printf("Votre pseudo doit faire 15 caractères maximum.\nVeuillez entrer votre pseudo : ");
+                        scanf("%s", answer_txt);
+                    }
+                    strcpy(player.pseudo, answer_txt);
+                }
+            }else{
+                printf("Veuillez entrer votre pseudo : ");
+                scanf("%s", answer_txt);
+                while(strlen(answer_txt) > 15){
+                    printf("Votre pseudo doit faire 15 caractères maximum.\nVeuillez entrer votre pseudo : ");
+                    scanf("%s", answer_txt);
+                }
+                strcpy(player.pseudo, answer_txt);
+            }
+            
+
+
+            skip_lines(30);
+            printf("%s", tetris);
         }
-        end =1;
     }
 
 

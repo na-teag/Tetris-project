@@ -8,16 +8,16 @@ void init(char tab[TABSIZE][TABSIZE], char a){ // initialize all the table's cel
     }
 }
 
-void move(char tab[TABSIZE][TABSIZE], char color[TABSIZE][TABSIZE], int ligne){ // move the lines of the game table when one is completed
+void move(char tab[TABSIZE][TABSIZE], char tab_color[TABSIZE][TABSIZE], int color[CTE7], int ligne){ // move the lines of the game table when one is completed
     for(int i=ligne; i<TABSIZE-1; i++){
         for(int j=0; j<TABSIZE; j++){
             tab[i][j] = tab[i+1][j];
-            color[i][j] = color[i+1][j];
+            tab_color[i][j] = tab_color[i+1][j];
         }
     }
     for(int i=0; i<TABSIZE; i++){
         tab[TABSIZE][i] = ' ';
-        color[TABSIZE][i] = 0;
+        tab_color[TABSIZE][i] = color[0];
     }
 }
 
@@ -136,14 +136,16 @@ int max_verticalsize(int new_piece, int orientation, int **pieces[]){// calcul o
     return nbr;
 }
 
-void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE],int color[CTE7], int column, int new_orientation, int new_piece){
+void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE],int color[CTE7], int column, int new_orientation, int new_piece, Player *player, int *gameover){
     new_orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
     int piece_size[CTE4] = {0,0,0,0};// the vertical size of each column of the piece (by counting only the occuped cells)
     verticalsize(new_piece, new_orientation, pieces, piece_size);
     int horizontal_size = horizontalsize(new_piece, new_orientation, pieces);
     int size[CTE4] = {0,0,0,0};
+    int tabsup[CTE4];//4 lines max can be completed in one turn
     int height = 0;
     int test = 0;
+    int nbline = 0;
     int k = CTE3;//variable for a loop  
     int max_vertical_size = max_verticalsize(new_piece, new_orientation, pieces);//the vertical size of the piece
     
@@ -180,24 +182,70 @@ void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[T
     }
     printf("\nheight=%d,", height);
     //height = 5;
-    if(height+max_vertical_size<TABSIZE){//if there is still some place in the table
-        for(int i=0; i<horizontal_size; i++){
+    if(height+max_vertical_size<=TABSIZE){//if there is still some place in the table
+        for(int i=0; i<=max_vertical_size; i++){
             //k=CTE3;
             for(int j=0; j<CTE4; j++){
-                if(*(*(pieces[new_piece]+new_orientation)+(4*k)+j) == 1){
+                if(*(*(pieces[new_piece]+new_orientation)+(4*k)+j) == 1){//save the piece selected in the table
                     mytab[i+height][j+column] = '@';
-                    mytab_color[i+height][j+column] = new_piece;
+                    mytab_color[i+height][j+column] = color[new_piece];
                 }
             }
             k--;
         }
         printf("(%d)", new_piece);
-        /*
-        if(){//une ligne est complete
-            move();//decaler les lignes
-        }*/
-    }else{
+        for(int i=0; i<TABSIZE; i++){
+            int full=0;
+            for(int j=0; j<TABSIZE; j++){
+                if(mytab[i][j]=='@'){
+                    full++;
+                    if(full==10){
+                        tabsup[nbline]=i;
+                        nbline++;
+                    }
+                }
+            }
+        }
+        if(nbline>0){//une ligne est complete
+            for(int i=0; i<nbline; i++){
+                move(mytab, mytab_color, color, tabsup[i]-i);//decaler les lignes    
+            }
+        }
+        player->level++;
+        player->score += addscore(player->level, nbline);
+        printf("\nscore=%d", player->score);
 
+    }else{
+        *gameover = 1;
     }
 }
-//pieces[(4*line)+column];
+
+
+
+
+
+int addscore(int level, int nbline){
+    float score = 0;
+    if(nbline == 1){
+        score = 40;
+    }
+    if(nbline == 2){
+        score = 100;
+    }
+    if(nbline == 3){
+        score = 300;
+    }
+    if(nbline == 4){
+        score = 1200;
+    }
+    score += 10;
+    return (int)score;
+}
+
+
+/*
+typedef struct{
+    int difficulty;
+    int difficulty_progressive;
+    int language;
+}Setting;*/
