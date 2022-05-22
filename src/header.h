@@ -8,6 +8,7 @@
 #include <sys/time.h>
 #include "color.h"
 #define TABSIZE 10
+#define NBPLAYR 10 
 #define CTE2 2
 #define CTE3 3
 #define CTE4 4
@@ -28,8 +29,8 @@ typedef struct{
     int score;
 }Player;
 
-void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE]);
-int ask(int **pieces[], int new_piece, int futur_piece, int *column, int *line);
+void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE], int score, int **pieces[], int futur_piece);
+int ask(int **pieces[], int new_piece, int *column, int *line);
 void skip_lines(int a);
 unsigned long getTimeMicroSec();
 void init(char mytab[TABSIZE][TABSIZE], char a);
@@ -45,5 +46,7 @@ void update_tab(int **pieces[CTE16],char mytab[TABSIZE][TABSIZE], char mytab_col
 int addscore(int level, int nbline);
 Setting setting(Setting set, int color[TABSIZE]);
 void music();
-void tutoriel();
+void tutorial(int color, const char tetris[]);
 void setdifficulty();
+void sort(Player tab_players[], int size);
+void update_tab_player(Player tab_players[], Player player);

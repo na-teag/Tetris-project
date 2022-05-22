@@ -183,15 +183,18 @@ void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[T
     printf("\nheight=%d,", height);
     //height = 5;
     if(height+max_vertical_size<=TABSIZE){//if there is still some place in the table
-        for(int i=0; i<=max_vertical_size; i++){
-            //k=CTE3;
+        //k = CTE4;
+        for(int i=0; i<max_vertical_size; i++){
+            printf("i=%d,", i);
             for(int j=0; j<CTE4; j++){
                 if(*(*(pieces[new_piece]+new_orientation)+(4*k)+j) == 1){//save the piece selected in the table
                     mytab[i+height][j+column] = '@';
                     mytab_color[i+height][j+column] = color[new_piece];
                 }
+                printf("k=%d, j=%d,", k, j);
             }
             k--;
+            
         }
         printf("(%d)", new_piece);
         for(int i=0; i<TABSIZE; i++){
@@ -242,10 +245,28 @@ int addscore(int level, int nbline){
     return (int)score;
 }
 
+void sort(Player tab_players[], int size){
+    int decalage;
+    Player temp;
+    for(int step=1; step<size; step++){
+        temp=tab_players[step];
+        decalage=step-1;
+        while(decalage >= 0 && tab_players[decalage].score > temp.score){
+        	tab_players[decalage+1]=tab_players[decalage];
+            decalage--;
+        } 
+        tab_players[decalage+1]=temp;
+    }
+}
 
-/*
-typedef struct{
-    int difficulty;
-    int difficulty_progressive;
-    int language;
-}Setting;*/
+void update_tab_player(Player tab_players[], Player player){
+    Player temp[NBPLAYR+1];
+    for(int i=0; i<NBPLAYR; i++){
+        temp[i] = tab_players[i];
+    }
+    temp[NBPLAYR] = player;
+    sort(temp, NBPLAYR+1);
+    for(int i=0; i<NBPLAYR; i++){
+        tab_players[i] = temp[i];
+    }
+}

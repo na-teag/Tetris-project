@@ -2,9 +2,13 @@
 
 
 
-void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE]){
+void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE], int score, int **pieces[], int futur_piece){
     skip_lines(40);
-    printf("Voici votre grille :\n\n");
+    for(int i=0; i<CTE16; i++){
+        printf("%d", *(*(pieces[futur_piece]+0)+i));
+    }
+    printf("\n");
+    printf("Voici votre grille :\n\t\t\t\t\t\tscore : %d\n", score);
     printf("\t A B C D E F G H I J\n\t");
     for(int i=TABSIZE-1; i>=0; i--){ // the (0;0) cell is at the left corner of the bottom
         for(int j=0; j<TABSIZE; j++){
@@ -13,12 +17,32 @@ void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE]){
             printf("%c", mytab[i][j]);
             couleur("0");//reset color
         }
-        printf("|i=%d\n\t", i);
+        printf("|i=%d", i);
+        if(i == 5){//posting the futur piece
+            printf("\t\tfuture piece :");
+        }else if(0 <= i && i<=3){
+            printf("\t\t   ");
+            for(int j=0; j<CTE4; j++){
+                if(*(*(pieces[futur_piece]+0)+(4*(3-i))+j) == 1){//*(*(pieces[new_piece]+orientation)+(4*line)+column)
+                    printf("@ ");
+                }else{
+                    printf("  ");
+                }
+            }
+        }
+        printf("\n\t");
     }
     printf(" A B C D E F G H I J\n");
 }
 
-int ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orientation){
+
+void skip_lines(int a){
+    for(int i=0; i<a; i++){
+        printf("\n");
+    }
+}
+
+int ask(int **pieces[], int new_piece, int *column, int *orientation){
     *orientation = 0;
     int answer1 = 0;
     int test = 0;
@@ -40,7 +64,7 @@ int ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orient
         if(new_piece == 2 || new_piece == 3 || new_piece == 4){
             for(int j=0; j<CTE4; j++){
                 for(int k=0; k<CTE4; k++){
-                    if(*(*(pieces[new_piece]+j)+(CTE4*i)+k) == 1){// piece = *(*(pieces[new_piece]+orientation)+(4*line)+column)
+                    if(*(*(pieces[new_piece]+j)+(4*i)+k) == 1){// piece = *(*(pieces[new_piece]+orientation)+(4*line)+column)
                         printf("@ ");
                     }else{
                         printf("  ");
@@ -51,7 +75,7 @@ int ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orient
         }else if(new_piece == 0 || new_piece == 5 || new_piece == 6){ // if the piece is the stick there is only two possible choice, so we do it in an other printf
             for(int j=0; j<CTE2; j++){
                 for(int k=0; k<CTE4; k++){
-                    if(*(*(pieces[new_piece]+j)+(CTE4*i)+k) == 1){// piece = *(*(pieces[new_piece]+orientation)+(4*line)+column)
+                    if(*(*(pieces[new_piece]+j)+(4*i)+k) == 1){// piece = *(*(pieces[new_piece]+orientation)+(4*line)+column)
                         printf("@ ");
                     }else{
                         printf("  ");
@@ -61,7 +85,7 @@ int ask(int **pieces[], int new_piece, int futur_piece, int *column, int *orient
             }
         }else{ // if the piece is a square, we only need to print the piece once
             for(int k=0; k<CTE4; k++){
-                if(*(*(pieces[new_piece])+(CTE4*i)+k) == 1){// piece = *(*(pieces[new_piece]+orientation)+(4*line)+column)
+                if(*(*(pieces[new_piece])+(4*i)+k) == 1){// piece = *(*(pieces[new_piece]+orientation)+(4*line)+column)
                         printf("@ ");
                     }else{
                         printf("  ");
@@ -147,10 +171,14 @@ Setting setting(Setting set, int color[TABSIZE]){
     switch(answer_txt[0]){
         case '1':
             do{
-                printf("\n\nEntrez le niveau de difficulté sur une échelle de 1 a 3 : ");
+                printf("\n\nEntrez le niveau de difficulté sur une échelle de 1 a 3, ou bien 0 pour ");
+                if(1 == 1){
+                    printf("des"); 
+                }
+                printf("activer le minuteur : ");
                 scanf("%s", answer_txt);
-            }while(!(answer_txt[0] == '1' || answer_txt[0] == '2' || answer_txt[0] == '3'));
-            set.difficulty = answer_txt[0]-47;
+            }while(!(answer_txt[0] == '1' || answer_txt[0] == '2' || answer_txt[0] == '3' || answer_txt[0] == '0'));
+            set.difficulty = answer_txt[0]-48;
             break;
         case '2':
             if(set.difficulty_progressive == 1){
@@ -193,12 +221,6 @@ Setting setting(Setting set, int color[TABSIZE]){
 
 
 
-void skip_lines(int a){
-    for(int i=0; i<a; i++){
-        printf("\n");
-    }
-}
-
 void music(){
     char answer_txt[CTE200];   
     do{
@@ -206,7 +228,7 @@ void music(){
         scanf("%s", answer_txt);
     }while(!(answer_txt[0] == '1' || answer_txt[0] == '2' || answer_txt[0] == '3'));
     if(answer_txt[0] == '1'){
-        system("firefox --new-tab https://www.youtube.com/watch?v=lMJvDi0KNlM &");
+        system("firefox --new-tab https://www.youtube.com/watch?v=9Fv5cuYZFC0 &");
     }else if(answer_txt[0] == '2'){
         system("firefox --new-tab https://www.youtube.com/watch?v=lMJvDi0KNlM &");
     }
