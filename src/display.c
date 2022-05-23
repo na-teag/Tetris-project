@@ -233,7 +233,3 @@ void music(){
         system("firefox --new-tab https://www.youtube.com/watch?v=lMJvDi0KNlM &");
     }
 }
-
-void tutoriel(){
-
-}
