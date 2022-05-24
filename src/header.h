@@ -21,6 +21,7 @@ typedef struct{
     int difficulty;
     int difficulty_progressive;
     int language;
+    float time;
 }Setting;
 
 typedef struct{
@@ -29,8 +30,8 @@ typedef struct{
     int score;
 }Player;
 
-void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE], int score, int **pieces[], int futur_piece);
-int ask(int **pieces[], int new_piece, int *column, int *line);
+void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE], int score, int **pieces[], int futur_piece, int color[]);
+int ask(int **pieces[], int new_piece, int *column, int *line, Setting set, int color[]);
 void skip_lines(int a);
 unsigned long getTimeMicroSec();
 void init(char mytab[TABSIZE][TABSIZE], char a);
@@ -44,9 +45,12 @@ int horizontalsize(int new_piece, int orientation, int **piece[]);
 void verticalsize(int new_piece, int new_orientation, int **pieces[], int tab[]);
 void update_tab(int **pieces[CTE16],char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE], int color[CTE7], int column, int new_orientation, int new_piece, Player *player, int *gameover);
 int addscore(int level, int nbline);
-Setting setting(Setting set, int color[TABSIZE]);
-void music();
+Setting setting(Setting set, int color[TABSIZE], const char tetris[]);
+void music(const char tetris[]);
 void tutorial(int color, const char tetris[]);
 void setdifficulty();
 void sort(Player tab_players[], int size);
 void update_tab_player(Player tab_players[], Player player);
+void scoring(Player tab[], const char tetris[]);
+void clear_screen();
+void show_rules(const char tetris[]);
