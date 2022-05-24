@@ -274,8 +274,6 @@ void scoring(Player tab_players[], const char tetris[]){
     printf("\n\nAppuyez sur une touche puis Entrer pour quitter\n");
     scanf("%s", answer);
     skip_lines(10);
-<<<<<<< HEAD
-=======
 }
 
 void show_rules(const char tetris[]){
@@ -292,7 +290,6 @@ void show_rules(const char tetris[]){
     printf("\n  +1200 points si vous terminez quatre lignes en même temps.");
     printf("\n\nAppuyez sur une touche puis Entrer pour quitter.\n");
     scanf("%s", answer);
->>>>>>> fb49434be2d75a7e5e56a654965bb1fdc1e3c652
 }
 
 void show_rules(const char tetris[]){
