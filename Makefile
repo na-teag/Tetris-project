@@ -21,15 +21,15 @@ clear :
 	rm -f *.o
 	rm -f bin/exec
 
-save :
-	rm -f save1/oldsave/*
-	cp save1/*.c save1/oldsave/
-	cp save1/*.h save1/oldsave/
-	cp save1/*.txt save1/oldsave/
-	rm -f save1/*.c
-	rm -f save1/*.h
-	rm -f save1/*.txt
-	cp src/*.c save1/
-	cp src/*.h save1/
-	cp src/*.txt save1/
-	cp Makefile save1/
+#save :
+#	rm -f save1/oldsave/*
+#	cp save1/*.c save1/oldsave/
+#	cp save1/*.h save1/oldsave/
+#	cp save1/*.txt save1/oldsave/
+#	rm -f save1/*.c
+#	rm -f save1/*.h
+#	rm -f save1/*.txt
+#	cp src/*.c save1/
+#	cp src/*.h save1/
+#	cp src/*.txt save1/
+#	cp Makefile save1/
