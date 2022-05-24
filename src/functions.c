@@ -1,5 +1,7 @@
 #include "header.h"
 
+//this file contains all the functions that doesn't write text
+
 void init(char tab[TABSIZE][TABSIZE], char a){ // initialize all the table's cell to a typeface 'a'
     for(int i=0; i<TABSIZE; i++){
         for(int j=0; j<TABSIZE; j++){
@@ -16,8 +18,8 @@ void move(char tab[TABSIZE][TABSIZE], char tab_color[TABSIZE][TABSIZE], int colo
         }
     }
     for(int i=0; i<TABSIZE; i++){
-        tab[TABSIZE][i] = ' ';
-        tab_color[TABSIZE][i] = color[0];
+        tab[TABSIZE-1][i] = ' ';
+        tab_color[TABSIZE-1][i] = color[0];
     }
 }
 
@@ -60,34 +62,33 @@ int changecolor(int color){// the couleur function must have a const *char in pa
     if(color == 30){
         couleur("30");
         return 0;
-    }
-    if(color == 31){
+    }else if(color == 31){
         couleur("31");
         return 0;
-    }
-    if(color == 32){
+    }else if(color == 32){
         couleur("32");
         return 0;
-    }
-    if(color == 33){
+    }else if(color == 33){
         couleur("33");
         return 0;
-    }
-    if(color == 34){
+    }else if(color == 34){
         couleur("34");
         return 0;
-    }
-    if(color == 35){
+    }else if(color == 35){
         couleur("35");
         return 0;
-    }
-    if(color == 36){
+    }else if(color == 36){
         couleur("36");
         return 0;
-    }
-    if(color == 37){
+    }else if(color == 37){
         couleur("37");
         return 0;
+    }else if(color == 48){
+        couleur("0");
+        return 0;
+    }else{
+        printf("erreur, données de couleur incorrectes (%d)\n", color);
+        exit(1);
     }
     return 0;
 }
@@ -210,6 +211,7 @@ void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[T
             }
         }
         if(nbline>0){//une ligne est complete
+            printf("\a");
             for(int i=0; i<nbline; i++){
                 move(mytab, mytab_color, color, tabsup[i]-i);//decaler les lignes    
             }
@@ -231,14 +233,11 @@ int addscore(int level, int nbline){
     float score = 0;
     if(nbline == 1){
         score = 40;
-    }
-    if(nbline == 2){
+    }else if(nbline == 2){
         score = 100;
-    }
-    if(nbline == 3){
+    }else if(nbline == 3){
         score = 300;
-    }
-    if(nbline == 4){
+    }else if(nbline == 4){
         score = 1200;
     }
     score += 10;
@@ -251,7 +250,7 @@ void sort(Player tab_players[], int size){
     for(int step=1; step<size; step++){
         temp=tab_players[step];
         decalage=step-1;
-        while(decalage >= 0 && tab_players[decalage].score > temp.score){
+        while(decalage >= 0 && tab_players[decalage].score < temp.score){
         	tab_players[decalage+1]=tab_players[decalage];
             decalage--;
         } 
@@ -259,7 +258,9 @@ void sort(Player tab_players[], int size){
     }
 }
 
-void update_tab_player(Player tab_players[], Player player){
+
+
+void update_tab_player(Player tab_players[NBPLAYR], Player player){
     Player temp[NBPLAYR+1];
     for(int i=0; i<NBPLAYR; i++){
         temp[i] = tab_players[i];
@@ -269,4 +270,7 @@ void update_tab_player(Player tab_players[], Player player){
     for(int i=0; i<NBPLAYR; i++){
         tab_players[i] = temp[i];
     }
+    /*for(int i=0; i<10; i++){
+    	printf("\n%s : %d %d", tab_players[i].pseudo, tab_players[i].level, tab_players[i].score);
+    }*/
 }
