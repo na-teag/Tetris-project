@@ -26,6 +26,7 @@ int main(){
     int futur_piece = 0;
     int admin = 0;
     int column = 0;
+    int scanf_res=0;
     int test = 0;//this one is to know if it's the first time the loop game is launched
     int modif_file = 0;
 
@@ -36,7 +37,7 @@ int main(){
     getpieces(&I1, &I2, &O1, &T1, &T2, &T3, &T4, &L1, &L2, &L3, &L4, &J1, &J2, &J3, &J4, &Z1, &Z2, &S1, &S2, &I, &O, &T, &L, &J, &Z, &S, &pieces);
     Player tab_players[10];
 
-        //this part is for the game tables.
+        //this part is for the game arrays.
     char mytab[TABSIZE][TABSIZE];
     char mytab_color[TABSIZE][TABSIZE];
     char answer_txt[CTE200];
@@ -49,8 +50,8 @@ int main(){
     const char endscreen[] = {"\t - GAME OVER - "};
 
     Setting set;//initialize the parameter of the game
-    set.language = 1;
     set.difficulty = 2;
+    set.difficulty_progressive = 1;
     set.time = 15.0;
 
     Player player;//initialize the profile of the user
@@ -61,22 +62,26 @@ int main(){
     /* ------------------------ WELCOME SCREEN ------------------------ */
 
     clear_screen();
+    changecolor(34);
     printf("%s", tetris);
+    couleur("0");
     skip_lines(5);
 
 
     
     /* --------------------------------- BEGINNING OF THE GAME --------------------------------- */
 
-
-    fread(tab_players, sizeof(Player), 10, datafile);//read the file and 
+    fread(tab_players, sizeof(Player), 10, datafile);//read the file and
+    fclose(datafile);
     printf("Quelle est la couleur du fond d'ecran de votre terminal ? \n1 - Blanc \n2 - Noir \nEntrez 1 ou 2 : ");
-    scanf("%s", answer_txt);
-    while(!(answer_txt[0] == '1' || answer_txt[0] == '2')){
+    scanf_res=scanf("%d", &answer);
+    while(getc(stdin) != '\n');
+    while((answer != 1 && answer != 2) || scanf_res == 0){
         printf("\nVeuillez entrer uniquement 1 ou 2 comme reponse. \n\nQuelle est la couleur du fond d'ecran de votre terminal ? \n1 - Blanc \n2 - Noir \nEntrez 1 ou 2 : ");
-        scanf("%s", answer_txt);
+        scanf_res=scanf("%d", &answer);
+        while(getc(stdin) != '\n');
     }
-    if(answer_txt[0] == '2'){// if the background is black, put a black piece on the screen is not a good idea
+    if(answer == 2){// if the background is black, put a black piece on the screen is not a good idea
         color[3] = 37;
     }
 
@@ -86,7 +91,9 @@ int main(){
     while(end == 0){
 
         clear_screen();
+        changecolor(34);
         printf("%s", tetris);
+        couleur("0");
         if(test == 0){// if the program is launched for the first time
             skip_lines(2);
             printf("Si vous jouez pour la première fois, nous vous recommandons de visualiser le tutoriel.");
@@ -102,30 +109,35 @@ int main(){
             printf("\n 4 - Règles des scores");
             printf("\n 5 - Parametres");
             printf("\n 6 - Musique");
-            printf("\n 7 - Quitter\n\n");
-            scanf("%s", answer_txt);
-        }while(!(answer_txt[0] == '1' || answer_txt[0] == '2' || answer_txt[0] == '3' || answer_txt[0] == '4' || answer_txt[0] == '5' || answer_txt[0] == '6' || answer_txt[0] == '7'));
+            printf("\n 7 - Version 2.0 beta (non-opérationnel)");
+            printf("\n 8 - Quitter\n\n");
+            scanf_res=scanf("%d", &answer);
+            while(getc(stdin) != '\n');
+        }while((answer<0 || 9<answer) || scanf_res==0);
         
-        switch(answer_txt[0]){
-            case '1':
+        switch(answer){
+            case 1:
                 game = 1;
                 break;
-            case '2':
+            case 2:
                 scoring(tab_players, tetris);
                 break;
-            case '3':
+            case 3:
                 tutorial(color[3], tetris);
                 break;
-            case '4':
+            case 4:
                 show_rules(tetris);
                 break;
-            case '5':
+            case 5:
                 set = setting(set, color, tetris);
                 break;
-            case '6':
+            case 6:
                 music(tetris);
                 break;
-            case '7':
+            case 7:
+                beta(tetris);
+                break;
+            case 8:
                 end = 1;
                 break;
             default:
@@ -134,42 +146,30 @@ int main(){
         }
         
         if(game == 1){
-            rewind(datafile);
-            fread(tab_players, sizeof(Player), 10, datafile);//update the score table
-            
             sort(tab_players, NBPLAYR);
             gameover = 0;
             player.score = 0;
             player.level = 0;
-            rewind(datafile);
             futur_piece = rand()%7;
-            while(gameover == 0){
-                //printf("%d", game);
+            while(gameover == 0){// loop of the differents rounds
                 new_piece = futur_piece;
                 futur_piece = rand()%7;
                 disptab(mytab, mytab_color, player.score, pieces, futur_piece, color);
                 admin=ask(pieces, new_piece, &column, &new_orientation, set, color);
-                if(set.difficulty == 1){
-                    set.time -= 0.5;
+                if(set.difficulty_progressive == 1 && set.time>0.5){
+                    set.time = set.time - 0.2;
                 }
                 if(admin == 1){
-                 update_tab(pieces, mytab, mytab_color, color, column, new_orientation, new_piece, &player, &gameover);   
+                 update_tab(pieces, mytab, mytab_color, color, column, new_orientation, new_piece, &player, &gameover, set);   
                 }
             }
             init(mytab, ' ');
             init(mytab_color, 48);
             clear_screen();
+            changecolor(31);
             printf("%s", endscreen);
+            couleur("0");
             skip_lines(3);
-            printf(" ----- Tableau des scores -----");
-            for(int i=0; i<10; i++){
-    	        printf("\n%s\t: niveau %d\tscore %d", tab_players[i].pseudo, tab_players[i].level, tab_players[i].score);
-            }
-            if(tab_players[9].score < player.score){//if the score of the user is better than the worst one of the top-list
-                modif_file = 1;
-                update_tab_player(tab_players, player);//update the file
-            }
-
             
             printf("\n\nVous avez atteint le niveau %d, et votre score est de : %d points", player.level, player.score);
             skip_lines(5);
@@ -189,6 +189,7 @@ int main(){
                         scanf("%s", answer_txt);
                     }
                     strcpy(player.pseudo, answer_txt);
+                    player.pseudo[15] = '\0';
                 }
             }else{
                 printf("Veuillez entrer votre pseudo : ");
@@ -198,17 +199,27 @@ int main(){
                     scanf("%s", answer_txt);
                 }
                 strcpy(player.pseudo, answer_txt);
+                player.pseudo[15] = '\0';
             }
+            if(tab_players[9].score < player.score){//if the score of the user is better than the worst one of the top-list
+                modif_file = 1;
+                update_tab_player(tab_players, player);//update the file
+            }
+            printf("\"%s\"\n" ,player.pseudo);
+            skip_lines(3);
+            scoring(tab_players, tetris);
             if(modif_file == 1){
-                rewind(datafile);
+                datafile = fopen(pathtofile, "w");
+                if(datafile == NULL){
+                    printf("\n%s file in %s, error %d : %s \n\n", filename, pathtofile, errno, strerror(errno));
+                    exit(1);
+                }
     	        fwrite(tab_players, sizeof(Player), 10, datafile);
+                fclose(datafile);
             }
-            
+            modif_file=0;
         }
     }
-
-
     free(pathtofile);
-    fclose(datafile);
     return 0;
 }

@@ -2,7 +2,7 @@
 
 //this file contains all the functions that doesn't write text
 
-void init(char tab[TABSIZE][TABSIZE], char a){ // initialize all the table's cell to a typeface 'a'
+void init(char tab[TABSIZE][TABSIZE], char a){ // initialize all the array's cell to a typeface 'a'
     for(int i=0; i<TABSIZE; i++){
         for(int j=0; j<TABSIZE; j++){
             tab[i][j] = a;
@@ -10,7 +10,7 @@ void init(char tab[TABSIZE][TABSIZE], char a){ // initialize all the table's cel
     }
 }
 
-void move(char tab[TABSIZE][TABSIZE], char tab_color[TABSIZE][TABSIZE], int color[CTE7], int ligne){ // move the lines of the game table when one is completed
+void move_lines(char tab[TABSIZE][TABSIZE], char tab_color[TABSIZE][TABSIZE], int color[CTE7], int ligne){ // move the lines of the game array when one is completed
     for(int i=ligne; i<TABSIZE-1; i++){
         for(int j=0; j<TABSIZE; j++){
             tab[i][j] = tab[i+1][j];
@@ -137,7 +137,7 @@ int max_verticalsize(int new_piece, int orientation, int **pieces[]){// calcul o
     return nbr;
 }
 
-void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE],int color[CTE7], int column, int new_orientation, int new_piece, Player *player, int *gameover){
+void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[TABSIZE][TABSIZE],int color[CTE7], int column, int new_orientation, int new_piece, Player *player, int *gameover, Setting set){
     new_orientation--;// if the player enter 1, it's equivalent to the 0th for the prgm
     int piece_size[CTE4] = {0,0,0,0};// the vertical size of each column of the piece (by counting only the occuped cells)
     verticalsize(new_piece, new_orientation, pieces, piece_size);
@@ -170,7 +170,7 @@ void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[T
         printf("%d-%d|",size[i], piece_size[i]);
         size[i] = size[i]-piece_size[i];
     }
-    height = size[0];// height must be = to the higher nbr of the table
+    height = size[0];// height must be = to the higher nbr of the array
     printf("\n|%d",size[0]);
     for(int i=0; i<horizontal_size-1; i++){
         if(size[i]<size[i+1]){
@@ -183,12 +183,12 @@ void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[T
     }
     printf("\nheight=%d,", height);
     //height = 5;
-    if(height+max_vertical_size<=TABSIZE){//if there is still some place in the table
+    if(height+max_vertical_size<=TABSIZE){//if there is still some place in the array
         //k = CTE4;
         for(int i=0; i<max_vertical_size; i++){
             printf("i=%d,", i);
             for(int j=0; j<CTE4; j++){
-                if(*(*(pieces[new_piece]+new_orientation)+(4*k)+j) == 1){//save the piece selected in the table
+                if(*(*(pieces[new_piece]+new_orientation)+(4*k)+j) == 1){//save the piece selected in the array
                     mytab[i+height][j+column] = '@';
                     mytab_color[i+height][j+column] = color[new_piece];
                 }
@@ -213,11 +213,11 @@ void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[T
         if(nbline>0){//une ligne est complete
             printf("\a");
             for(int i=0; i<nbline; i++){
-                move(mytab, mytab_color, color, tabsup[i]-i);//decaler les lignes    
+                move_lines(mytab, mytab_color, color, tabsup[i]-i);//decaler les lignes    
             }
         }
         player->level++;
-        player->score += addscore(player->level, nbline);
+        player->score += addscore(player->level, nbline, set);
         printf("\nscore=%d", player->score);
 
     }else{
@@ -229,7 +229,7 @@ void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[T
 
 
 
-int addscore(int level, int nbline){
+int addscore(int level, int nbline, Setting set){
     float score = 0;
     if(nbline == 1){
         score = 40;
@@ -241,6 +241,16 @@ int addscore(int level, int nbline){
         score = 1200;
     }
     score += 10;
+    if(set.difficulty == 0){
+        score*=0.2;
+    }else if(set.difficulty == 1){
+        score*=0.5;
+    }else if(set.difficulty == 3){
+        score*=1.5;
+    }
+    if(set.difficulty_progressive == 1 && set.difficulty != 0){
+        score*=2;
+    }
     return (int)score;
 }
 
@@ -261,16 +271,6 @@ void sort(Player tab_players[], int size){
 
 
 void update_tab_player(Player tab_players[NBPLAYR], Player player){
-    Player temp[NBPLAYR+1];
-    for(int i=0; i<NBPLAYR; i++){
-        temp[i] = tab_players[i];
-    }
-    temp[NBPLAYR] = player;
-    sort(temp, NBPLAYR+1);
-    for(int i=0; i<NBPLAYR; i++){
-        tab_players[i] = temp[i];
-    }
-    /*for(int i=0; i<10; i++){
-    	printf("\n%s : %d %d", tab_players[i].pseudo, tab_players[i].level, tab_players[i].score);
-    }*/
+    tab_players[NBPLAYR-1] = player;
+    sort(tab_players, NBPLAYR);
 }

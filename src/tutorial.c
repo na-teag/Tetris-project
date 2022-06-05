@@ -2,9 +2,12 @@
 
 
 void tutorial(int color, const char tetris[]){
-    char answer[CTE200];
+    int answer = 0;
+    int scanf_res = 0;
     skip_lines(40);
+    changecolor(34);
     printf("%s", tetris);
+    couleur("0");
     skip_lines(5);
     printf("Voici la grille de jeu lorsqu'elle est vide :");
     skip_lines(2);
@@ -21,11 +24,11 @@ void tutorial(int color, const char tetris[]){
     printf("\t| | | | | | | | | | |\n");
     printf("\t A B C D E F G H I J\n");
     fflush(stdout);
-    sleep(5);
+    sleep(2);
     skip_lines(2);
     printf("Elle est compose de 10 lignes et de 10 colonnes.");
     fflush(stdout);
-    sleep(10);
+    sleep(5);
     skip_lines(5);
     printf("Voici la meme grille de jeu, qui contient cette fois un carre :");
     skip_lines(2);
@@ -42,15 +45,15 @@ void tutorial(int color, const char tetris[]){
     printf("\t| | |@|@| | | | | | |\n");
     printf("\t A B C D E F G H I J\n");
     fflush(stdout);
-    sleep(10);
+    sleep(5);
     skip_lines(2);
     printf("Pour positionner des pieces dedans, vous devrez \"deposer\" les pieces a partir de la colonne la plus a gauche.");
     fflush(stdout);
-    sleep(20);
+    sleep(10);
     skip_lines(5);
     printf("Prenons un exemple.");
     fflush(stdout);
-    sleep(4);
+    sleep(2);
     skip_lines(1);
     printf("\t A B C D E F G H I J\n");
     printf("\t| | | | | | | | | | |\n");
@@ -65,30 +68,32 @@ void tutorial(int color, const char tetris[]){
     printf("\t|@|@|@|@|@|@|@| | |@|\n");
     printf("\t A B C D E F G H I J\n");
     fflush(stdout);
-    sleep(6);
+    sleep(3);
     printf("\n\nImaginons que vous vouliez completer les deux lignes du bas avec un carre.");
     fflush(stdout);
-    sleep(8);
+    sleep(4);
     printf("\n\nLe programme vous demande dans quelle colonne vous souhaitez le mettre, repondez de maniere a completer les lignes : ");
     printf("\n(Precisons que vous pouvez entrer les lettres des colonnes en majuscule, ou en minuscule)");
     fflush(stdout);
-    sleep(8);
+    sleep(4);
     printf("\n\n\n\n\tEntrez la colonne dans laquelle vous souhaitez mettre la piece : ");
-    scanf("%s", answer);
-    if(answer[0] != 'h' && answer[0] != 'H'){
+    scanf_res=scanf("%c", &answer);
+    while(getc(stdin) != '\n');
+    if(answer != 'h' && answer != 'H'){
         do{
             printf("\n\nCe n'est pas la bonne réponse ! Le carre doit atterrir dans les colonnes H et I. Or, vous devez entrer la colonne la plus a gauche.");
             printf("\nReessayez :\n\n\n\n\tEntrez la colonne dans laquelle vous souhaitez mettre la piece : ");
-            scanf("%s", answer);
-        }while(answer[0] != 'h' && answer[0] != 'H');
+            scanf_res=scanf("%c", &answer);
+            while(getc(stdin) != '\n');
+        }while(answer != 'h' && answer != 'H');
     }
     printf("\n\nC'est ca. il s'agit de la colonne H.");
     fflush(stdout);
-    sleep(10);
+    sleep(5);
     skip_lines(5);
     printf("Prenons un autre exemple.");
     fflush(stdout);
-    sleep(4);
+    sleep(2);
     skip_lines(1);
     printf("\t A B C D E F G H I J\n");
     printf("\t| | | | | | | | | | |\n");
@@ -103,44 +108,46 @@ void tutorial(int color, const char tetris[]){
     printf("\t|@|@|@|@| |@|@|@|@|@|\n");
     printf("\t A B C D E F G H I J\n");
     fflush(stdout);
-    sleep(6);
+    sleep(3);
     printf("\n\nImaginons que vous vouliez completer les deux lignes du bas avec une piece \"T\" :");
     printf("\n\n@ @ @\n  @");
     fflush(stdout);
-    sleep(8);
+    sleep(4);
     skip_lines(3);
     printf("\n\nLe programme vous demande dans quelle colonne vous souhaitez le mettre, repondez de maniere a completer les lignes : ");
     printf("\n(Precisons que vous pouvez entrer les lettres des colonnes en majuscule, ou en minuscule)");
     fflush(stdout);
-    sleep(8);
+    sleep(4);
     printf("\n\n\n\n\tEntrez la colonne dans laquelle vous souhaitez mettre la piece : ");
-    scanf("%s", answer);
-    if(answer[0] != 'd' && answer[0] != 'D'){
+    scanf_res=scanf("%c", &answer);
+    while(getc(stdin) != '\n');
+    if(answer != 'd' && answer != 'D'){
         do{
             printf("\n\nCe n'est pas la bonne réponse ! La piece doit atterrir dans les colonnes D, E, et F. Or, vous devez entrer la colonne la plus a gauche.");
             printf("\nReessayez :\n\n\n\n\tEntrez la colonne dans laquelle vous souhaitez mettre la piece : ");
-            scanf("%s", answer);
-        }while(answer[0] != 'd' && answer[0] != 'D');
+            scanf_res=scanf("%c", &answer);
+            while(getc(stdin) != '\n');
+        }while(answer != 'd' && answer != 'D');
     }
     printf("\n\nC'est ca. il s'agit de la colonne D.");
     fflush(stdout);
-    sleep(8);
+    sleep(4);
     skip_lines(10);
     printf("Autre point : certaines pieces, comme le T, possedent plusieurs orientation possible.");
     fflush(stdout);
-    sleep(8);
+    sleep(4);
     skip_lines(2);
     printf("Le programme va alors vous demander quelle orientation vous souhaitez selectionner.");
     fflush(stdout);
-    sleep(5);
+    sleep(2);
     skip_lines(2);
     printf("Reprenons l'exemple de tout a l'heure :");
     fflush(stdout);
-    sleep(4);
+    sleep(2);
     skip_lines(2);
     printf("quelle orientation de la piece T faut il choisir pour completer les lignes ? Repondez au programme :");
     fflush(stdout);
-    sleep(4);
+    sleep(2);
     skip_lines(3);
     printf("\t A B C D E F G H I J\n");
     printf("\t| | | | | | | | | | |\n");
@@ -160,23 +167,24 @@ void tutorial(int color, const char tetris[]){
     printf("@ @ @   	@ @     	  @     	@ @    \n"); 	
     printf("  @     	  @     	@ @ @   	@\n");
     printf("\n\n\n\n\tChoisissez l'orientation de la piece : ");
-    scanf("%s", answer);
-    if(answer[0] != '1'){
+    scanf_res=scanf("%d", &answer);
+    while(getc(stdin) != '\n');
+    if(answer != 1){
         do{
             printf("\n\nCe n'est pas la bonne réponse !");
             printf("\nReessayez :\n\n\n\n\tChoisissez l'orientation de la piece : ");
-            scanf("%s", answer);
-        }while(answer[0] != '1');
+            scanf_res=scanf("%d", &answer);
+            while(getc(stdin) != '\n');
+        }while(answer != 1);
     }
     skip_lines(5);
     printf("C'est ca !");
     fflush(stdout);
-    sleep(4);
+    sleep(2);
     skip_lines(3);
     printf("C'est la fin de ce tutoriel. Nous vous suggerons de baisser la difficulte dans les parametres pour commencer si vous ne vous sentez pas encore a l'aise.");
     printf("\nVous pourrez choisir le mode facile pour vous laisser plus de temps pour repondre, voire meme desactiver le minuteur.");
     fflush(stdout);
-    sleep(10);
+    sleep(5);
     skip_lines(4);
-    printf("%s", tetris);
 }

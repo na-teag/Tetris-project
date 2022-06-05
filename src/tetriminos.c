@@ -4,7 +4,7 @@
 
 
 
-// The following instructions create a table of 7 cells. Each cell contains a table of 4 cells (for the differents positions). Each of them contains a table of the stucture of the piece of tetris.
+// The following instructions create an array of 7 cells. Each cell contains an array of 4 cells (for the differents positions). Each of them contains an array of the stucture of the piece of tetris.
 int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int T2[CTE16], int T3[CTE16], int T4[CTE16], int L1[CTE16], int L2[CTE16], int L3[CTE16], int L4[CTE16], int J1[CTE16], int J2[CTE16], int J3[CTE16], int J4[CTE16], int Z1[CTE16], int Z2[CTE16], int S1[CTE16], int S2[CTE16], int *I[CTE4], int *O[CTE4], int *T[CTE4], int *L[CTE4], int *J[CTE4], int *Z[CTE4], int *S[CTE4], int **pieces[CTE7]){
     /*int tabI1[CTE16] = {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0};
     int tabI2[CTE16] = {1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0};
@@ -61,18 +61,18 @@ int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int
     12, 13, 14, 15
     
     represent the pieces from tetris, with 4 lines of 4 columns.
-    They are positionned to be at the top and the left of the table.
+    They are positionned to be at the top and the left of the array.
     (They will appear in the prgm positionned at the bottom and the left, as the lines are written in reverse(to have the (0;0) cell at the left bottom)
     
     Exemple :
-    The first one {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0} represents the horizontal line, on the bottom of the 4x4 table :
+    The first one {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0} represents the horizontal line, on the bottom of the 4x4 array :
     1 1 1 1
     0 0 0 0
     0 0 0 0
     0 0 0 0
-    note : the order of the piece is the same that the one of wikipedia's table (https://fr.wikipedia.org/wiki/tetris#Pièces_du_jeu)
+    note : the order of the piece is the same that the one of wikipedia's array (https://fr.wikipedia.org/wiki/tetris#Pièces_du_jeu)
     
-    The tables are declared again (even if there is alredy tables in parameters) to don't have to fill them cell by cell, like this :
+    The arrays are declared again (even if there is alredy arrays in parameters) to don't have to fill them cell by cell, like this :
     tab1[0] = a;
     tab1[1] = b
     ...
@@ -100,7 +100,7 @@ int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int
     cpy(tabS2, S2, CTE16);
 
 
-    int *tabI[CTE4] = {I1, I2, I1, I2}; // do a table of every positions of the pieces
+    int *tabI[CTE4] = {I1, I2, I1, I2}; // do an array of every positions of the pieces
     int *tabO[CTE4] = {O1, O1, O1, O1};
     int *tabT[CTE4] = {T1, T2, T3, T4};
     int *tabL[CTE4] = {L1, L2, L3, L4};
@@ -116,7 +116,7 @@ int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int
     cpy1(tabZ, Z, CTE4);
     cpy1(tabS, S, CTE4);
 
-    int **tabpieces[CTE7] = {I, O, T, L, J, Z, S}; // do a table of every pieces in every position
+    int **tabpieces[CTE7] = {I, O, T, L, J, Z, S}; // do an array of every pieces in every position
     for(int i=0; i<CTE7; i++){
         pieces[i] = tabpieces[i];
     }
