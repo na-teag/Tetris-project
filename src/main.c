@@ -88,6 +88,9 @@ int main(){
 
     /* --------------------------------- GAME LOOP --------------------------------- */
 
+
+
+
     while(end == 0){
 
         clear_screen();
@@ -109,7 +112,7 @@ int main(){
             printf("\n 4 - Règles des scores");
             printf("\n 5 - Parametres");
             printf("\n 6 - Musique");
-            printf("\n 7 - Version 2.0 beta (non-opérationnel)");
+            printf("\n 7 - Version 2.0 beta (non-complète)");
             printf("\n 8 - Quitter\n\n");
             scanf_res=scanf("%d", &answer);
             while(getc(stdin) != '\n');

@@ -5,13 +5,14 @@ void beta(const char tetris[]){
 
 int main1();
 
-// game loop
+
 clear_screen();
 changecolor(34);
 printf("%s", tetris);
 couleur("0");
 skip_lines(5);
 printf("Pour diriger les pièces, utiliser les touche 8 (haut), 4 (gauche), 6 (droite), et 2 (bas) du pavé numérique.\n\n");
+printf("\nAttention, la fonction chargé d'enregistre la pièce avant d'en faire apparaitre une nouvelle est actuellement en cours de débogage, et est désactivée.\n\n");
 printf("Pour sortir de la version beta, appuyer sur la touche échap (exit)\n\napuyer sur n'importe quelle touche pour commencer.");
 int c;
 scanf("%c", &c);
@@ -88,7 +89,51 @@ int main1(){
         return ok;
     }
 
+    void move_line(char tab[TABSIZE][TABSIZE], int ligne){ // move the lines of the game array when one is completed
+    for(int i=ligne; i<TABSIZE-1; i++){
+        for(int j=0; j<TABSIZE; j++){
+            tab[i][j] = tab[i+1][j];
+        }
+    }
+    for(int i=0; i<TABSIZE; i++){
+        tab[TABSIZE-1][i] = ' ';
+    }
+}
 
+    void fix(char mytab[TABSIZE][TABSIZE], int y, int x, int new_piece, int orientation, int **pieces_beta[CTE7]){//this function contain the save of the piece when it's at the bottom of the array
+        /*                 //this part contain a segment fault              this part contain a segment fault           this part contain a segment fault
+        int k=3;
+        int nbline=0;
+        int tabsup[CTE4] = {0,0,0,0};
+        for(int i=0; i<max_verticalsize(new_piece, orientation, pieces_beta); i++){
+            for(int j=0; j<horizontalsize(new_piece, orientation, pieces_beta); j++){
+                if(*(*(pieces_beta[new_piece]+orientation)+(4*k)+j) == 1){//save the piece selected in the array
+                    mytab[i+y][j+x] = '@';
+                }
+            }
+            k--;
+        }
+        for(int i=0; i<TABSIZE; i++){
+            int full=0;
+            for(int j=0; j<TABSIZE; j++){//count the line completed
+                if(mytab[i][j]=='@'){
+                    full++;
+                    if(full==10){
+                        tabsup[nbline]=i;
+                        nbline++;
+                        full=0;
+                    }
+                }
+            }
+        }
+        if(nbline>0){//if a line is completed
+            printf("\a");
+            for(int i=0; i<nbline; i++){
+                //move_line(mytab, tabsup[i]-i);//move the lines   
+            }
+        }
+        */
+    }
 
 
 
@@ -113,7 +158,7 @@ int main1(){
     // Variables (position of the player)
     int x = 5;
     int y = 2;
-    
+    /*
     for(int i=0; i<9; i++){
         mytab[i][4]='@';
     }
@@ -122,7 +167,7 @@ int main1(){
     }
     for(int i=0; i<9; i++){
         mytab[i][2]='@';
-    }
+    }*/
     srand(time(NULL));
     move(11,1);
     int c;
@@ -204,26 +249,32 @@ int main1(){
         c=getch();
         if(getTimeMicroSec()-time1>=1000000 && turn==1){
             int plus = (getTimeMicroSec()-time1)/1000000;
-            while(1==0&&check_move(mytab, pieces_beta, x, y+plus, new_piece, orientation, decalage)==0){
-                plus--;
-                move(22,22);
-                printw("%d", plus);
-                refresh();
-                sleep(1);
-                if(plus<0){
-                    plus=0;
+            for(int i=0; i<plus+1; i++){
+                if(check_move(mytab, pieces_beta, x, y+i, new_piece, orientation, decalage)==0){
+                    plus = i;
+                    turn = 0;
                 }
             }
             if((getTimeMicroSec()-time1)/1000000>plus+1){
                 turn = 0;
             }
-            turn=1;//y+=plus;
+            y+=plus;
+            //turn=1;
             time1 = getTimeMicroSec();
+        }
+        if(y>10){
+            y=10;
+            turn=0;
+        }
+        if(turn==0){
+            fix(mytab, y, x, new_piece, orientation, pieces_beta);
+            new_piece = rand()%7;
+            x = 5;
+            y = horizontalsize(new_piece, orientation, pieces_beta);
         }
         
         // If there is no actual keyboard active, it returns ERR
-        if(c != ERR){
-            // The ESCAPE key has been pressed            
+        if(c != ERR){           
             if(turn == 1){
                 // KEYPAD_2 has been pressed (down)
                 if(c==50 ){
@@ -272,8 +323,6 @@ int main1(){
                         orientation++;
                         if(orientation>3){
                             orientation = 0;
-                            new_piece++;
-                            if(new_piece>6) new_piece = 0;
                         }
                     }else if(check_move(mytab, pieces_beta, x, y, temp_new_piece, temp_orientation, decalage)==-1){
                         for(i=1; i<horizontalsize(temp_new_piece, temp_orientation, pieces_beta)-1; i++){
@@ -290,6 +339,7 @@ int main1(){
                     }
                 }
             }
+            turn = 1;
         }
     }
 

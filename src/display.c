@@ -35,18 +35,18 @@ void disptab(char mytab[TABSIZE][TABSIZE],char mytab_color[TABSIZE][TABSIZE], in
 }
 
 
-void skip_lines(int a){
+void skip_lines(int a){//skip 'a' lines
     for(int i=0; i<a; i++){
         printf("\n");
     }
 }
 
-void clear_screen(){
+void clear_screen(){//clear the screen and write the text 10 line below
     clrscr();
     skip_lines(10);
 }
 
-int ask(int **pieces[], int new_piece, int *column, int *orientation, Setting set, int color[]){
+int ask(int **pieces[], int new_piece, int *column, int *orientation, Setting set, int color[]){//ask for the player to write the orientation and the placement of the piece
     *orientation = 0;
     int answer1 = 0;
     int test = 0;
@@ -171,7 +171,7 @@ int ask(int **pieces[], int new_piece, int *column, int *orientation, Setting se
 
 
 
-Setting setting(Setting set, int color[TABSIZE], const char tetris[]){
+Setting setting(Setting set, int color[TABSIZE], const char tetris[]){//set the parameters
     char answer_txt[CTE200];
     int answer = 0;
     int scanf_res = 0;
@@ -259,7 +259,7 @@ Setting setting(Setting set, int color[TABSIZE], const char tetris[]){
 
 
 
-void music(const char tetris[]){
+void music(const char tetris[]){// open youtube to listen tetris music
     int scanf_res = 0;
     int answer = 0;
     clear_screen();
@@ -281,7 +281,7 @@ void music(const char tetris[]){
     }
 }
 
-void scoring(Player tab_players[], const char tetris[]){
+void scoring(Player tab_players[], const char tetris[]){// show the scores record
     char answer[CTE200];
     clear_screen();
     changecolor(34);
@@ -299,7 +299,7 @@ void scoring(Player tab_players[], const char tetris[]){
     skip_lines(10);
 }
 
-void show_rules(const char tetris[]){
+void show_rules(const char tetris[]){//show the rules of the scoring
     char answer[CTE200];
     clear_screen();
     changecolor(34);

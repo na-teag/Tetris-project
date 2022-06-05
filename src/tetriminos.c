@@ -6,26 +6,7 @@
 
 // The following instructions create an array of 7 cells. Each cell contains an array of 4 cells (for the differents positions). Each of them contains an array of the stucture of the piece of tetris.
 int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int T2[CTE16], int T3[CTE16], int T4[CTE16], int L1[CTE16], int L2[CTE16], int L3[CTE16], int L4[CTE16], int J1[CTE16], int J2[CTE16], int J3[CTE16], int J4[CTE16], int Z1[CTE16], int Z2[CTE16], int S1[CTE16], int S2[CTE16], int *I[CTE4], int *O[CTE4], int *T[CTE4], int *L[CTE4], int *J[CTE4], int *Z[CTE4], int *S[CTE4], int **pieces[CTE7]){
-    /*int tabI1[CTE16] = {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0};
-    int tabI2[CTE16] = {1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0};
-    int tabO1[CTE16] = {1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0};
-    int tabT1[CTE16] = {1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0};
-    int tabT2[CTE16] = {0,1,0,0,1,1,0,0,0,1,0,0,0,0,0,0};
-    int tabT3[CTE16] = {0,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0};
-    int tabT4[CTE16] = {1,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0};
-    int tabL1[CTE16] = {1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0};
-    int tabL2[CTE16] = {1,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0};
-    int tabL3[CTE16] = {0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0};
-    int tabL4[CTE16] = {1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0};
-    int tabJ1[CTE16] = {1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0};
-    int tabJ2[CTE16] = {0,1,0,0,0,1,0,0,1,1,0,0,0,0,0,0};
-    int tabJ3[CTE16] = {1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0};
-    int tabJ4[CTE16] = {1,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0};
-    int tabZ1[CTE16] = {1,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0};
-    int tabZ2[CTE16] = {0,1,0,0,1,1,0,0,1,0,0,0,0,0,0,0};
-    int tabS1[CTE16] = {0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0};
-    int tabS2[CTE16] = {1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0};*/
-
+   
 
     int tabI1[CTE16] = {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1};
     int tabI2[CTE16] = {1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0};
@@ -65,11 +46,11 @@ int*** getpieces(int I1[CTE16], int I2[CTE16], int O1[CTE16], int T1[CTE16], int
     (They will appear in the prgm positionned at the bottom and the left, as the lines are written in reverse(to have the (0;0) cell at the left bottom)
     
     Exemple :
-    The first one {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0} represents the horizontal line, on the bottom of the 4x4 array :
+    The first one {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1} represents the horizontal line, on the bottom of the 4x4 array :
+    0 0 0 0
+    0 0 0 0
+    0 0 0 0
     1 1 1 1
-    0 0 0 0
-    0 0 0 0
-    0 0 0 0
     note : the order of the piece is the same that the one of wikipedia's array (https://fr.wikipedia.org/wiki/tetris#Pièces_du_jeu)
     
     The arrays are declared again (even if there is alredy arrays in parameters) to don't have to fill them cell by cell, like this :

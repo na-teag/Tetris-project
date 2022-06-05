@@ -23,7 +23,7 @@ void move_lines(char tab[TABSIZE][TABSIZE], char tab_color[TABSIZE][TABSIZE], in
     }
 }
 
-unsigned long getTimeMicroSec(){
+unsigned long getTimeMicroSec(){// get the time
     struct timeval tv;
     gettimeofday(&tv, NULL);
     return (1000000 * tv.tv_sec) + tv.tv_usec;
@@ -46,12 +46,12 @@ char* add(char tab[], char tab2[]){ // put two character strings together
     return tab3;
 }
 
-void cpy(int tab1[], int tab2[], int size){
+void cpy(int tab1[], int tab2[], int size){//copy an array
     for(int i=0; i<size; i++){
         tab2[i] = tab1[i];
     }
 }
-void cpy1(int *tab1[], int *tab2[], int size){
+void cpy1(int *tab1[], int *tab2[], int size){//copy an array of array
     for(int i=0; i<size; i++){
         tab2[i] = tab1[i];
     }
@@ -117,13 +117,13 @@ void verticalsize(int new_piece, int new_orientation, int **pieces[], int tab[])
         tab[i] = nbr;
         nbr = 0;
     }
-    printf("||");
+    //printf("||");
     for(int i=0; i<CTE4; i++){
         for(int j=0; j<CTE4; j++){
-            printf("%d", *(*(pieces[new_piece]+new_orientation)+(4*i)+j));
+            //printf("%d", *(*(pieces[new_piece]+new_orientation)+(4*i)+j));
         }
     }
-    printf("||"); 
+    //printf("||"); 
 }
 
 int max_verticalsize(int new_piece, int orientation, int **pieces[]){// calcul of the horizontal size of a piece
@@ -158,7 +158,7 @@ void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[T
             if(mytab[j][i+column]=='@'){
                 size[i]=j+1;//as j start at 9, j is equal to the occuped cell, and not the free cell, so we need to do +1
                 test=1;
-                printf("(%d;%d)", i, j);
+                //printf("(%d;%d)", i, j);
             }else if((j==0) && (test == 0)){
                 size[i] = 0;
             }
@@ -167,58 +167,59 @@ void update_tab(int **pieces[], char mytab[TABSIZE][TABSIZE], char mytab_color[T
     }
     skip_lines(1);
     for(int i=0; i<CTE4; i++){
-        printf("%d-%d|",size[i], piece_size[i]);
+        //printf("%d-%d|",size[i], piece_size[i]);
         size[i] = size[i]-piece_size[i];
     }
     height = size[0];// height must be = to the higher nbr of the array
-    printf("\n|%d",size[0]);
+    //printf("\n|%d",size[0]);
     for(int i=0; i<horizontal_size-1; i++){
         if(size[i]<size[i+1]){
             height = size[i+1];
         }
-        printf("|%d",size[i+1]);
+        //printf("|%d",size[i+1]);
     }
     if(height<0){
         height = 0;
     }
-    printf("\nheight=%d,", height);
+    //printf("\nheight=%d,", height);
     //height = 5;
     if(height+max_vertical_size<=TABSIZE){//if there is still some place in the array
         //k = CTE4;
         for(int i=0; i<max_vertical_size; i++){
-            printf("i=%d,", i);
+            //printf("i=%d,", i);
             for(int j=0; j<CTE4; j++){
                 if(*(*(pieces[new_piece]+new_orientation)+(4*k)+j) == 1){//save the piece selected in the array
                     mytab[i+height][j+column] = '@';
                     mytab_color[i+height][j+column] = color[new_piece];
                 }
-                printf("k=%d, j=%d,", k, j);
+                //printf("k=%d, j=%d,", k, j);
             }
             k--;
             
         }
-        printf("(%d)", new_piece);
+        //printf("(%d)", new_piece);
         for(int i=0; i<TABSIZE; i++){
             int full=0;
-            for(int j=0; j<TABSIZE; j++){
+            for(int j=0; j<TABSIZE; j++){//count the line completed
                 if(mytab[i][j]=='@'){
                     full++;
                     if(full==10){
                         tabsup[nbline]=i;
                         nbline++;
+                        full=0;
                     }
                 }
             }
         }
-        if(nbline>0){//une ligne est complete
+        if(nbline>0){//if a line is completed
             printf("\a");
             for(int i=0; i<nbline; i++){
-                move_lines(mytab, mytab_color, color, tabsup[i]-i);//decaler les lignes    
+                move_lines(mytab, mytab_color, color, tabsup[i]-i);//move the lines   
             }
         }
         player->level++;
         player->score += addscore(player->level, nbline, set);
-        printf("\nscore=%d", player->score);
+        //printf("\nscore=%d", player->score);
 
     }else{
         *gameover = 1;
